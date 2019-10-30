@@ -1,0 +1,81 @@
+//
+//  ContentView.swift
+//  Sorting Visualizer
+//
+//  Created by Yanik Simpson on 10/30/19.
+//  Copyright © 2019 Yanik Simpson. All rights reserved.
+//
+
+import UIKit
+
+public class BubbleSortAPI {
+    enum State: Equatable {
+        case waiting
+        case looping(currentIndex: IndexPath, previousIndex: IndexPath?)
+        case restarting(endIndex: IndexPath)
+        case swap(index1: IndexPath, Index2: IndexPath)
+    }
+    
+    var state: State = .waiting {
+        didSet {
+            sendUpdates?(state)
+        }
+    }
+    
+    var datasource: [Int] = RectangleDataLoader().loadRectangles(6)
+    lazy var endIndex = datasource.count - 1
+
+    
+    var sendUpdates: ((State) -> ())?
+    
+    // MARK: - API
+    
+
+    func start() {
+        var didChangeValue = false
+        var currentIndex = 0
+        state = .looping(currentIndex: IndexPath(row: currentIndex, section: 0), previousIndex: nil)
+        
+        let shouldSwap = datasource[currentIndex] > datasource[currentIndex + 1]
+        if shouldSwap {
+            self.datasource.swapAt(currentIndex + 1, currentIndex)
+            self.state = .swap(index1: IndexPath(row: currentIndex, section: 0),
+                               Index2: IndexPath(row: currentIndex + 1, section: 0))
+            didChangeValue = true
+        }
+        
+        _ = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [weak self] (t) in
+            guard let self = self else { return }
+            currentIndex += 1
+            let previousIndex = currentIndex - 1
+            let nextIndex = currentIndex + 1
+            
+            self.state = .looping(currentIndex: IndexPath(row: currentIndex, section: 0),
+                                  previousIndex: IndexPath(row: previousIndex, section: 0))
+            
+
+            let hasNotReachedEndIndex = currentIndex != self.endIndex
+            if hasNotReachedEndIndex {
+                
+                let didMeetSwapCriteria = self.datasource[currentIndex] > self.datasource[nextIndex]
+                if didMeetSwapCriteria {
+                    self.datasource.swapAt(currentIndex, nextIndex)
+                    self.state = .swap(index1: IndexPath(row: currentIndex, section: 0),
+                                        Index2: IndexPath(row: nextIndex, section: 0))
+                    didChangeValue = true
+                }
+            }
+                    
+            let hasReachedEndIndex = currentIndex >= self.endIndex
+            if hasReachedEndIndex {
+                self.state = .restarting(endIndex: IndexPath(row: self.endIndex, section: 0))
+                if didChangeValue { self.start() }
+                if !didChangeValue { self.state = .waiting }
+                self.endIndex -= 1
+                t.invalidate()
+            }
+        })
+    }
+    
+}
+
