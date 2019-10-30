@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class BubbleSortAPI {
+class BubbleSortAPI {
     enum State: Equatable {
         case waiting
         case looping(currentIndex: IndexPath, previousIndex: IndexPath?)
@@ -44,7 +44,7 @@ public class BubbleSortAPI {
             didChangeValue = true
         }
         
-        _ = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [weak self] (t) in
+        _ = Timer.scheduledTimer(withTimeInterval: 0.4, repeats: true, block: { [weak self] (t) in
             guard let self = self else { return }
             currentIndex += 1
             let previousIndex = currentIndex - 1

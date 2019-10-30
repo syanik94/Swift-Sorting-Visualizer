@@ -10,8 +10,12 @@ import UIKit
 
 class BubbleSortViewController: UIViewController {
     
+    // MARK: - Dependencies
+    
     let bubbleSortAPI = BubbleSortAPI()
 
+    // MARK: - Views
+    
     lazy var layout: UICollectionViewFlowLayout = {
         let flow = UICollectionViewFlowLayout()
         return flow
@@ -42,7 +46,8 @@ class BubbleSortViewController: UIViewController {
         button.heightAnchor.constraint(equalToConstant: 35).isActive = true
         return button
     }()
-        
+    
+    // MARK: - View Lifecycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +56,13 @@ class BubbleSortViewController: UIViewController {
         setupButton()
         observeStateUpdates()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.title = "Bubble Sort"
+    }
+    
+    // MARK: - State Observation
     
     fileprivate func observeStateUpdates() {
         bubbleSortAPI.sendUpdates = { [weak self] (state) in
@@ -108,6 +120,7 @@ class BubbleSortViewController: UIViewController {
     }
 }
 
+// MARK: - CollectionView Delegate & Datasource Methods
 
 extension BubbleSortViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -13,7 +13,7 @@
 		3D1CBC1C2369FCB200E912A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D1CBC1B2369FCB200E912A2 /* Assets.xcassets */; };
 		3D1CBC1F2369FCB200E912A2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D1CBC1E2369FCB200E912A2 /* Preview Assets.xcassets */; };
 		3D1CBC222369FCB200E912A2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D1CBC202369FCB200E912A2 /* LaunchScreen.storyboard */; };
-		3D1CBC2D2369FCB200E912A2 /* Sorting_VisualizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1CBC2C2369FCB200E912A2 /* Sorting_VisualizerTests.swift */; };
+		3D1CBC2D2369FCB200E912A2 /* BubbleSortTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1CBC2C2369FCB200E912A2 /* BubbleSortTests.swift */; };
 		3D1CBC382369FCB200E912A2 /* Sorting_VisualizerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1CBC372369FCB200E912A2 /* Sorting_VisualizerUITests.swift */; };
 		3D1CBC492369FE9C00E912A2 /* BubbleSortViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1CBC482369FE9C00E912A2 /* BubbleSortViewController.swift */; };
 		3D1CBC4C236A00A900E912A2 /* RectangleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1CBC4B236A00A900E912A2 /* RectangleCollectionViewCell.swift */; };
@@ -47,7 +47,7 @@
 		3D1CBC212369FCB200E912A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3D1CBC232369FCB200E912A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D1CBC282369FCB200E912A2 /* Sorting VisualizerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sorting VisualizerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3D1CBC2C2369FCB200E912A2 /* Sorting_VisualizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sorting_VisualizerTests.swift; sourceTree = "<group>"; };
+		3D1CBC2C2369FCB200E912A2 /* BubbleSortTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleSortTests.swift; sourceTree = "<group>"; };
 		3D1CBC2E2369FCB200E912A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D1CBC332369FCB200E912A2 /* Sorting VisualizerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sorting VisualizerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D1CBC372369FCB200E912A2 /* Sorting_VisualizerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sorting_VisualizerUITests.swift; sourceTree = "<group>"; };
@@ -128,7 +128,7 @@
 		3D1CBC2B2369FCB200E912A2 /* Sorting VisualizerTests */ = {
 			isa = PBXGroup;
 			children = (
-				3D1CBC2C2369FCB200E912A2 /* Sorting_VisualizerTests.swift */,
+				3D1CBC2C2369FCB200E912A2 /* BubbleSortTests.swift */,
 				3D1CBC2E2369FCB200E912A2 /* Info.plist */,
 			);
 			path = "Sorting VisualizerTests";
@@ -321,7 +321,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D1CBC2D2369FCB200E912A2 /* Sorting_VisualizerTests.swift in Sources */,
+				3D1CBC2D2369FCB200E912A2 /* BubbleSortTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
