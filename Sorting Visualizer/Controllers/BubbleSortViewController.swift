@@ -47,13 +47,26 @@ class BubbleSortViewController: UIViewController {
         return button
     }()
     
+    lazy var resetButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.addTarget(self, action: #selector(handleResetTap), for: .touchUpInside)
+        button.backgroundColor = .clear
+        button.setTitle("Reset", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.gray, for: .disabled)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: .heavy)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        return button
+    }()
+    
     // MARK: - View Lifecycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupCollectionView()
-        setupButton()
+        setupButtons()
         observeStateUpdates()
     }
     
@@ -70,6 +83,7 @@ class BubbleSortViewController: UIViewController {
             switch state {
                 
             case .waiting:
+                self.collectionView.reloadData()
                 self.startButton.isEnabled = true
                 
             case .looping(let currentIndex, let previousIndex):
@@ -106,17 +120,26 @@ class BubbleSortViewController: UIViewController {
         collectionView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 3).isActive = true
     }
     
-    private func setupButton() {
+    private func setupButtons() {
         view.addSubview(startButton)
         startButton.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 50).isActive = true
         startButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32).isActive = true
         startButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:  -32).isActive = true
+        
+        view.addSubview(resetButton)
+        resetButton.topAnchor.constraint(equalTo: startButton.bottomAnchor, constant: 16).isActive = true
+        resetButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32).isActive = true
+        resetButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:  -32).isActive = true
     }
     
     // MARK: - Actions
     
     @objc fileprivate func handleStartTap(_ sender: UIButton) {
         bubbleSortAPI.start()
+    }
+    
+    @objc fileprivate func handleResetTap(_ sender: UIButton) {
+        // TODO: - Handle Reset
     }
 }
 
