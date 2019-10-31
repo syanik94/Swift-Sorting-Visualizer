@@ -27,7 +27,7 @@ class BubbleSortTests: XCTestCase {
     
     // MARK: - Initialize
 
-    func testInit_state_waiting() {
+    func testInit_state_notStarted() {
         XCTAssertEqual(sut?.state,
                        BubbleSortAPI.State.notStarted)
     }
@@ -81,6 +81,49 @@ class BubbleSortTests: XCTestCase {
         // then
         wait(for: [expected], timeout: 1)
         XCTAssertEqual(sut?.datasource, [1, 2, 3])
+    }
+    
+    func test_start_swapState() {
+        // given
+        sut?.datasource = [3, 2, 1]
+        var observedState = BubbleSortAPI.State.notStarted
+        let expected = expectation(description: #function)
+        
+        // when
+        sut?.sendUpdates = { (state) in
+            switch state {
+            case .swap(_ , _):
+                observedState = state
+                expected.fulfill()
+            default: break
+            }
+        }
+        sut?.start()
+        
+        // then
+        wait(for: [expected], timeout: 1)
+        XCTAssertEqual(observedState, .swap(index1: [0, 0], Index2: [0, 1]))
+    }
+    
+    func test_start_swapOutput() {
+        // given
+        sut?.datasource = [3, 2, 1]
+        let expected = expectation(description: #function)
+
+        // when
+        sut?.sendUpdates = { (state) in
+            switch state {
+                
+            case .swap(_, _):
+                expected.fulfill()
+            default: break
+            }
+        }
+        sut?.start()
+        
+        // then
+        wait(for: [expected], timeout: 1)
+        XCTAssertEqual(sut?.datasource, [2, 3, 1])
     }
     
 }

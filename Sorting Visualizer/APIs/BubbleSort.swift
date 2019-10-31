@@ -47,7 +47,7 @@ class BubbleSortAPI: SortAPI {
         }
     }
     
-    func performLoop(_ currentIndex: Int, _ t: Timer) {
+    fileprivate func performLoop(_ currentIndex: Int, _ t: Timer) {
         let previousIndex = currentIndex - 1
         
         self.state = .looping(currentIndex: IndexPath(row: currentIndex, section: 0),
