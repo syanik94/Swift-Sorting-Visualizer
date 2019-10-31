@@ -17,6 +17,7 @@ class BubbleSortTests: XCTestCase {
     
     override func setUp() {
         sut = BubbleSortAPI()
+        sut?.selectedSortSpeed = sut!.minSortSpeed
     }
 
     override func tearDown() {
@@ -28,7 +29,7 @@ class BubbleSortTests: XCTestCase {
 
     func testInit_state_waiting() {
         XCTAssertEqual(sut?.state,
-                       BubbleSortAPI.State.waiting)
+                       BubbleSortAPI.State.notStarted)
     }
     
     func testInit_setValues() {
@@ -38,81 +39,48 @@ class BubbleSortTests: XCTestCase {
     }
     
     // MARK: - Sorting
-    
-    func test_start_swap_firstAndSecondIndex() {
-        sut?.datasource = [5, 3, 1]
-        
+            
+    func test_start_completedState() {
+        // given
+        sut?.datasource = [3, 2, 1]
+        var observedState = BubbleSortAPI.State.notStarted
+        let expected = expectation(description: #function)
+
+        // when
+        sut?.sendUpdates = { (state) in
+            observedState = state
+            switch state {
+                
+            case .completed:
+                expected.fulfill()
+            default: break
+            }
+        }
         sut?.start()
         
-        XCTAssertEqual(sut?.state,
-                       BubbleSortAPI.State.swap(index1: [0, 0],
-                                                Index2: [0, 1]))
-        XCTAssertEqual(sut?.datasource, [3, 5, 1])
+        // then
+        wait(for: [expected], timeout: 1)
+        XCTAssertEqual(observedState, .completed)
     }
     
-    func test_start_loop_firstIndex() {
-        sut?.datasource = [1, 3, 1]
+    func test_start_completedOutput() {
+        // given
+        sut?.datasource = [3, 2, 1]
+        let expected = expectation(description: #function)
         
+        // when
+        sut?.sendUpdates = { (state) in
+            switch state {
+            case .completed:
+                expected.fulfill()
+            default: break
+            }
+        }
         sut?.start()
         
-        XCTAssertEqual(sut?.state,
-                       BubbleSortAPI.State.looping(currentIndex: [0, 0],
-                                                   previousIndex: nil))
-        XCTAssertEqual(sut?.datasource, [1, 3, 1])
-    }
-    
-    func test_start_checkForSwap_shouldSwap() {
-        sut?.datasource = [3,2,1]
-        
-        sut?.start()
-        
-        XCTAssertEqual(sut?.state,
-                       BubbleSortAPI.State.swap(index1: [0, 0],
-                                                Index2: [0, 1]))
-        XCTAssertEqual(sut?.datasource, [2, 3, 1])
-    }
-    
-    func test_start_checkForSwap_shouldNotSwap() {
-        sut?.datasource = [1,2,3]
-        
-        sut?.start()
-        
-        XCTAssertEqual(sut?.state,
-                       BubbleSortAPI.State.looping(currentIndex: [0, 0],
-                                                   previousIndex: nil))
+        // then
+        wait(for: [expected], timeout: 1)
         XCTAssertEqual(sut?.datasource, [1, 2, 3])
-    }
-    
-//    func test_reset() {
-//        sut?.datasource = [1,2,3]
-//        
-//        sut?.reset()
-//        
-//        XCTAssertEqual(sut?.state,
-//                       BubbleSortAPI.State.waiting)
-//        XCTAssertNotEqual(sut?.datasource, [1,2,3])
-//    }
-    
-    func test_handleLooping_secondIndex_shouldResultInLooping() {
-        sut?.datasource = [1, 2, 3]
-        
-        sut?.performLoop(1, Timer())
-        
-        XCTAssertEqual(sut?.state,
-            BubbleSortAPI.State.looping(currentIndex: [0, 1], previousIndex: Optional([0, 0])))
-    }
-    
-    func test_handleLooping_secondIndex_shouldResultInSwap() {
-        sut?.datasource = [2, 3, 1]
-        
-        sut?.performLoop(1, Timer())
-        
-        XCTAssertEqual(sut?.state,
-        BubbleSortAPI.State.swap(index1: [0, 1], Index2: [0, 2]))
-        
-        sut?.performLoop(0, Timer())
-        XCTAssertEqual(sut?.datasource,
-                        [1, 2, 3])
     }
     
 }
