@@ -29,7 +29,31 @@ class SelectionSortViewController: GenericSortDisplayViewController {
          guard let sortAPI = sortAPI as? SelectionSortAPI else { return }
          sortAPI.sendUpdates = { [weak self] (state) in
              guard let self = self else { return }
-
+            switch state {
+                
+            case .notStarted:
+                self.startButton.isEnabled = true
+                
+            case .looping(let currentIndex):
+                self.startButton.isEnabled = false
+                guard let cell = self.collectionView.cellForItem(at: currentIndex) as? RectangleCollectionViewCell else { return }
+                cell.rectangleView.backgroundColor = .orange
+                
+                
+            case .restarting(let startingIndexPath, let swappingIndexPath):
+                guard let cell1 = self.collectionView.cellForItem(at: startingIndexPath) as? RectangleCollectionViewCell else { return }
+                if let swappingIndexPath = swappingIndexPath {
+                    guard let cell2 = self.collectionView.cellForItem(at: swappingIndexPath) as? RectangleCollectionViewCell else { return }
+                    cell1.rectangleView.backgroundColor = .green
+                    cell2.rectangleView.backgroundColor = .green
+                    
+                    self.collectionView.moveItem(at: swappingIndexPath, to: startingIndexPath)
+                }
+                
+            case .completed:
+                self.startButton.isEnabled = true
+                self.collectionView.reloadData()
+            }
          }
      }
     
@@ -44,8 +68,7 @@ class SelectionSortViewController: GenericSortDisplayViewController {
     // MARK: - Actions
     
     @objc fileprivate func handleStartTap(_ sender: UIButton) {
-        guard let sortAPI = sortAPI as? SelectionSortAPI else { return }
-        sortAPI.start()
+        sortAPI?.start()
     }
     
     @objc fileprivate func handleResetTap(_ sender: UIButton) {

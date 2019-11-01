@@ -10,6 +10,7 @@ import UIKit
 
 protocol SortAPI {
     var datasource: [Int] { get set }
+    func start()
 }
 
 class GenericSortDisplayViewController: UIViewController {

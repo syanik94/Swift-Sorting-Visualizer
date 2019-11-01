@@ -60,8 +60,6 @@ class BubbleSortViewController: GenericSortDisplayViewController {
                 
             case .completed:
                 self.startButton.isEnabled = true
-//                self.collectionView.reloadData()
-
             }
         }
     }

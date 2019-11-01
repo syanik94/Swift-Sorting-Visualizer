@@ -19,9 +19,12 @@ class SelectionSortTests: XCTestCase {
     
     override func setUp() {
         sut = SelectionSortAPI()
+        sut?.selectedSortSpeed = sut!.minSortSpeed
+
     }
 
     override func tearDown() {
+        sut?.sendUpdates = nil
         sut = nil
         super.tearDown()
     }
@@ -30,23 +33,65 @@ class SelectionSortTests: XCTestCase {
 
     func testInit_state_waiting() {
         XCTAssertEqual(sut?.state,
-                       SelectionSortAPI.State.waiting)
+                       SelectionSortAPI.State.notStarted)
     }
     
-    func test_state_start() {
+    
+    func test_start_looping() {
         // given
-        sut?.datasource = [2, 1, 3]
+        sut?.datasource = [3, 2, 1]
         
+        // when
         sut?.start()
         
+        // then
         XCTAssertEqual(sut?.state,
-                       SelectionSortAPI.State.looping(
-                        currentIndex: [sut!.currentIndex, 0],
-                        nextIndex: [sut!.steppingIndex, 0]))
+                       SelectionSortAPI.State.looping(currentIndex: [0,0]))
     }
     
     
-
+    // MARK: - State - Completion & Output
     
+    func test_start_completion() {
+        // given
+        let expectated = expectation(description: #function)
+        var observedState = SelectionSortAPI.State.notStarted
+        
+        // when
+        sut?.sendUpdates = { (state) in
+            switch state {
+            case .completed:
+                observedState = state
+                expectated.fulfill()
+            default:
+                break
+            }
+        }
+        sut?.start()
+        
+        wait(for: [expectated], timeout: 2)
+        XCTAssertEqual(sut?.state,
+                       SelectionSortAPI.State.completed)
+    }
+
+    func test_start_completionOutput() {
+        // given
+        let sortedData = sut?.datasource.sorted()
+        let expectated = expectation(description: #function)
+        
+        // when
+        sut?.sendUpdates = { (state) in
+            switch state {
+            case .completed:
+                expectated.fulfill()
+            default: break
+            }
+        }
+        sut?.start()
+        
+        wait(for: [expectated], timeout: 2)
+        XCTAssertEqual(sut?.datasource,
+                      sortedData)
+    }
     
 }
