@@ -75,6 +75,7 @@ class SelectionSortTests: XCTestCase {
 
     func test_start_completionOutput() {
         // given
+        sut?.datasource = [80, 28, 20, 16, 16, 27, 78, 89]
         let sortedData = sut?.datasource.sorted()
         let expectated = expectation(description: #function)
         
@@ -87,7 +88,7 @@ class SelectionSortTests: XCTestCase {
             }
         }
         sut?.start()
-        
+        // [28, 20, 80, 16, 16, 27, 78, 89]
         wait(for: [expectated], timeout: 2)
         XCTAssertEqual(sut?.datasource,
                       sortedData)

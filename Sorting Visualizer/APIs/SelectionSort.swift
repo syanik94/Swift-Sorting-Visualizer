@@ -8,12 +8,6 @@
 
 import Foundation
 
-extension Int {
-    func toIndexPath() -> IndexPath {
-        return IndexPath(row: self, section: 0)
-    }
-}
-
 class SelectionSortAPI: SortAPI {
     
     enum State: Equatable {
@@ -28,18 +22,16 @@ class SelectionSortAPI: SortAPI {
             sendUpdates?(state)
         }
     }
+    var sendUpdates: ((State) -> ())?
+    var datasource: [Int] = RectangleDataLoader().loadRectangles(8)
+    lazy var endIndex = datasource.count - 1
+
     
     var minSortSpeed = 0.05
     var selectedSortSpeed = 0.5
     var maxSortSpeed = 0.5
     
-    var datasource: [Int] = RectangleDataLoader().loadRectangles(6)
-    lazy var endIndex = datasource.count - 1
-
-    var sendUpdates: ((State) -> ())?
-    
-    
-    private var currentIndex = 0
+    var currentIndex = 0
     var startingIndex = 0
     var possibleSwaps: [Int] = []
     
@@ -68,27 +60,29 @@ class SelectionSortAPI: SortAPI {
     }
     
     fileprivate func handleLoopEnd(_ t: Timer) {
-        // MARK: End of looping
-        let didReachEndIndex = self.currentIndex >= self.endIndex
+        let didReachEndIndex = currentIndex >= endIndex
         if didReachEndIndex {
-            if self.startingIndex == self.endIndex {
-                self.state = .completed
+            if startingIndex == endIndex {
+                state = .completed
+                print(datasource)
             }
             
-            if self.startingIndex != self.endIndex {
-                if !self.possibleSwaps.isEmpty {
-                    let swappingIndex: Int = self.datasource.firstIndex(of: self.possibleSwaps.first!)!
-                    self.datasource.swapAt(self.startingIndex,
+            if startingIndex != endIndex {
+                if !possibleSwaps.isEmpty {
+                    let swappingIndex: Int = datasource.findFirstIndex(from: startingIndex, of: possibleSwaps[0])
+//                        datasource.firstIndex(of: possibleSwaps[0])!
+                    
+                    datasource.swapAt(startingIndex,
                                            swappingIndex)
                     
-                    self.state = .restarting(startingIndexPath: [self.startingIndex, 0],
+                    state = .restarting(startingIndexPath: [startingIndex, 0],
                                              swappingIndexPath: [swappingIndex,0])
-                    self.possibleSwaps.removeAll()
                 }
-                self.state = .restarting(startingIndexPath: [self.startingIndex, 0],
+                state = .restarting(startingIndexPath: [startingIndex, 0],
                                          swappingIndexPath: nil)
-                self.startingIndex += 1
-                self.start()
+                possibleSwaps.removeAll()
+                startingIndex += 1
+                start()
             }
             t.invalidate()
         }

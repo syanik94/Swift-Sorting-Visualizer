@@ -21,6 +21,7 @@
 		3DD75A2A236A687A00C298B9 /* SelectionSortViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD75A29236A687A00C298B9 /* SelectionSortViewController.swift */; };
 		3DD75A2C236A68FF00C298B9 /* SelectionSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD75A2B236A68FF00C298B9 /* SelectionSort.swift */; };
 		3DD75A2E236A695700C298B9 /* SelectionSortTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD75A2D236A695700C298B9 /* SelectionSortTests.swift */; };
+		3DD75A34236D480600C298B9 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD75A33236D480600C298B9 /* Array+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		3DD75A29236A687A00C298B9 /* SelectionSortViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionSortViewController.swift; sourceTree = "<group>"; };
 		3DD75A2B236A68FF00C298B9 /* SelectionSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionSort.swift; sourceTree = "<group>"; };
 		3DD75A2D236A695700C298B9 /* SelectionSortTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionSortTests.swift; sourceTree = "<group>"; };
+		3DD75A33236D480600C298B9 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 		3D1CBC112369FCB000E912A2 /* Sorting Visualizer */ = {
 			isa = PBXGroup;
 			children = (
+				3DD75A32236D47F500C298B9 /* Extensions */,
 				3D1CBC462369FE7400E912A2 /* Supporting Files */,
 				3D1CBC452369FE6D00E912A2 /* APIs */,
 				3D1CBC472369FE8800E912A2 /* Controllers */,
@@ -166,6 +169,14 @@
 				3DD75A2D236A695700C298B9 /* SelectionSortTests.swift */,
 			);
 			path = "API Test";
+			sourceTree = "<group>";
+		};
+		3DD75A32236D47F500C298B9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3DD75A33236D480600C298B9 /* Array+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -270,6 +281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D1CBC4E236A012400E912A2 /* RectangleLoader.swift in Sources */,
+				3DD75A34236D480600C298B9 /* Array+Extensions.swift in Sources */,
 				3D1CBC4C236A00A900E912A2 /* RectangleCollectionViewCell.swift in Sources */,
 				3D1CBC492369FE9C00E912A2 /* BubbleSortViewController.swift in Sources */,
 				3DD75A2A236A687A00C298B9 /* SelectionSortViewController.swift in Sources */,

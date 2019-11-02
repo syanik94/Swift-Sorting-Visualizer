@@ -37,9 +37,11 @@ class SelectionSortViewController: GenericSortDisplayViewController {
                 
             case .looping(let currentIndex):
                 self.startButton.isEnabled = false
-                guard let cell = self.collectionView.cellForItem(at: IndexPath(row: currentIndex.section, section: currentIndex.row)) as? RectangleCollectionViewCell else { return }
+                guard let cell = self.collectionView.cellForItem(at: IndexPath(row: currentIndex.section, section: 0)) as? RectangleCollectionViewCell else { return }
                 cell.rectangleView.backgroundColor = .orange
-
+                
+//                guard let previousCell = self.collectionView.cellForItem(at: IndexPath(row: currentIndex.section - 1, section: 0)) as? RectangleCollectionViewCell else { return }
+                
             case .restarting(let startingIndexPath, let swappingIndexPath):
                 guard let cell1 = self.collectionView.cellForItem(at: IndexPath(row: startingIndexPath.section, section: 0)) as? RectangleCollectionViewCell else { return }
                 cell1.rectangleView.backgroundColor = .green
@@ -47,8 +49,12 @@ class SelectionSortViewController: GenericSortDisplayViewController {
                 if let swappingIndexPath = swappingIndexPath {
                     guard let cell2 = self.collectionView.cellForItem(at: IndexPath(row: swappingIndexPath.section, section: 0)) as? RectangleCollectionViewCell else { return }
                     cell2.rectangleView.backgroundColor = .green
+                    
                     self.collectionView.moveItem(at: IndexPath(row: swappingIndexPath.section, section: 0),
                                                  to: IndexPath(row: startingIndexPath.section, section: 0))
+                    
+                    self.collectionView.moveItem(at: IndexPath(row: startingIndexPath.section + 1, section: 0),
+                                                 to: IndexPath(row: swappingIndexPath.section, section: 0))
                 }
                 
             case .completed:
@@ -60,7 +66,7 @@ class SelectionSortViewController: GenericSortDisplayViewController {
 
     // MARK: - View Setup
     
-    private func setupButtonActions() {
+    fileprivate func setupButtonActions() {
         resetButton.addTarget(self, action: #selector(handleResetTap), for: .touchUpInside)
         startButton.addTarget(self, action: #selector(handleStartTap), for: .touchUpInside)
     }
