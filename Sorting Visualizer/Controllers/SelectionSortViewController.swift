@@ -28,6 +28,7 @@ class SelectionSortViewController: GenericSortDisplayViewController {
     fileprivate func observeStateUpdates() {
          guard let sortAPI = sortAPI as? SelectionSortAPI else { return }
          sortAPI.sendUpdates = { [weak self] (state) in
+
              guard let self = self else { return }
             switch state {
                 
@@ -36,23 +37,22 @@ class SelectionSortViewController: GenericSortDisplayViewController {
                 
             case .looping(let currentIndex):
                 self.startButton.isEnabled = false
-                guard let cell = self.collectionView.cellForItem(at: currentIndex) as? RectangleCollectionViewCell else { return }
+                guard let cell = self.collectionView.cellForItem(at: IndexPath(row: currentIndex.section, section: currentIndex.row)) as? RectangleCollectionViewCell else { return }
                 cell.rectangleView.backgroundColor = .orange
-                
-                
+
             case .restarting(let startingIndexPath, let swappingIndexPath):
-                guard let cell1 = self.collectionView.cellForItem(at: startingIndexPath) as? RectangleCollectionViewCell else { return }
+                guard let cell1 = self.collectionView.cellForItem(at: IndexPath(row: startingIndexPath.section, section: 0)) as? RectangleCollectionViewCell else { return }
+                cell1.rectangleView.backgroundColor = .green
+
                 if let swappingIndexPath = swappingIndexPath {
-                    guard let cell2 = self.collectionView.cellForItem(at: swappingIndexPath) as? RectangleCollectionViewCell else { return }
-                    cell1.rectangleView.backgroundColor = .green
+                    guard let cell2 = self.collectionView.cellForItem(at: IndexPath(row: swappingIndexPath.section, section: 0)) as? RectangleCollectionViewCell else { return }
                     cell2.rectangleView.backgroundColor = .green
-                    
-                    self.collectionView.moveItem(at: swappingIndexPath, to: startingIndexPath)
+                    self.collectionView.moveItem(at: IndexPath(row: swappingIndexPath.section, section: 0),
+                                                 to: IndexPath(row: startingIndexPath.section, section: 0))
                 }
                 
             case .completed:
                 self.startButton.isEnabled = true
-                self.collectionView.reloadData()
             }
          }
      }

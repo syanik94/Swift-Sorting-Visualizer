@@ -20,7 +20,6 @@ class SelectionSortTests: XCTestCase {
     override func setUp() {
         sut = SelectionSortAPI()
         sut?.selectedSortSpeed = sut!.minSortSpeed
-
     }
 
     override func tearDown() {
@@ -59,9 +58,9 @@ class SelectionSortTests: XCTestCase {
         
         // when
         sut?.sendUpdates = { (state) in
+            observedState = state
             switch state {
             case .completed:
-                observedState = state
                 expectated.fulfill()
             default:
                 break
