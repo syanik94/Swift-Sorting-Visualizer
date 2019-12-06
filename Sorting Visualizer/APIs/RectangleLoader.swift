@@ -8,16 +8,16 @@
 
 import Foundation
 
-class RectangleDataLoader {
+struct RectangleDataLoader {
     
-    var rectangles: [Int] = []
-    private var rectsToLoad: Int = 5
+    private(set) var rectangles: [Int] = []
+    private var rectsToLoad: Int
     
-    init() {
-        
+    init(rectsToLoad: Int) {
+        self.rectsToLoad = rectsToLoad
     }
     
-    func load(rectsToLoad: Int) {
+    mutating func load(rectsToLoad: Int) {
         self.rectsToLoad = rectsToLoad
         for _ in 0..<rectsToLoad {
             let number = Int.random(in: 5 ..< 100)
@@ -25,16 +25,7 @@ class RectangleDataLoader {
         }
     }
     
-    func loadRectangles(_ rectsToLoad: Int) -> [Int] {
-        var rectangles: [Int] = []
-        for _ in 0..<rectsToLoad {
-            let number = Int.random(in: 5 ..< 100)
-                    rectangles.append(number)
-        }
-        return rectangles
-    }
-    
-    func reset() {
+    mutating func reset() {
         rectangles.removeAll()
         load(rectsToLoad: rectsToLoad)
     }

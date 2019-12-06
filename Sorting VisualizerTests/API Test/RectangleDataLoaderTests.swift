@@ -14,7 +14,7 @@ class RectangleDataLoaderTests: XCTestCase {
     private var sut: RectangleDataLoader!
     
     override func setUp() {
-        sut = RectangleDataLoader()
+        sut = RectangleDataLoader(rectsToLoad: 0)
         super.setUp()
     }
 
@@ -37,11 +37,12 @@ class RectangleDataLoaderTests: XCTestCase {
     
     func test_reset() {
         sut.load(rectsToLoad: 5)
-        let initialData = sut.rectangles
+        let initial = sut.rectangles
         
         sut.reset()
-        let newResult = sut.rectangles
+        let result = sut.rectangles
         
-        XCTAssertNotEqual(initialData, newResult)
+        XCTAssertNotEqual(initial, result)
+        XCTAssertEqual(initial.count, result.count)
     }
 }
