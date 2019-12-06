@@ -16,7 +16,7 @@ class SelectionSortTests: XCTestCase {
     // MARK: - Setup
     
     override func setUp() {
-        sut = SelectionSortAPI()
+        sut = SelectionSortAPI(datasource: [5])
         sut?.selectedSortSpeed = sut!.minSortSpeed
     }
 

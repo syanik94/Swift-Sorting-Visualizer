@@ -15,8 +15,7 @@ class BubbleSortViewController: GenericSortDisplayViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Bubble Sort"
-        view.backgroundColor = .white
-        sortAPI = BubbleSortAPI()
+        sortAPI = BubbleSortAPI(datasource: rectDataLoader.rectangles)
         setupButtonActions()
         observeStateUpdates()
     }
@@ -76,6 +75,8 @@ class BubbleSortViewController: GenericSortDisplayViewController {
     
     @objc fileprivate func handleResetTap(_ sender: UIButton) {
         // TODO: - Handle Reset
+        rectDataLoader.reset()
+        collectionView.reloadData()
     }
 }
 

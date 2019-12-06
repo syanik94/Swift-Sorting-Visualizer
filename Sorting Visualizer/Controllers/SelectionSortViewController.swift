@@ -13,8 +13,7 @@ class SelectionSortViewController: GenericSortDisplayViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Selection Sort"
-        view.backgroundColor = .white
-        sortAPI = SelectionSortAPI()
+        sortAPI = SelectionSortAPI(datasource: rectDataLoader.rectangles)
         setupButtonActions()
         observeStateUpdates()
     }

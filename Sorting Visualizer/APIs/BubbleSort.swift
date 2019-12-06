@@ -27,10 +27,14 @@ class BubbleSortAPI: SortAPI {
     var selectedSortSpeed = 0.1
     var maxSortSpeed = 1
     
-    var datasource: [Int] = RectangleDataLoader().loadRectangles(6)
+    var datasource: [Int] 
     fileprivate lazy var endIndex = datasource.count - 1
 
     var sendUpdates: ((State) -> ())?
+    
+    init(datasource: [Int]) {
+        self.datasource = datasource
+    }
     
     // MARK: - API
     
@@ -85,8 +89,5 @@ class BubbleSortAPI: SortAPI {
         })
     }
     
-    func reset() {
-        
-    }
 }
 

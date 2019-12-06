@@ -11,10 +11,14 @@ import UIKit
 protocol SortAPI {
     var datasource: [Int] { get set }
     func start()
-    func reset()
 }
 
 class GenericSortDisplayViewController: UIViewController {
+    
+    lazy var rectDataLoader: RectangleDataLoader = {
+        let dl = RectangleDataLoader(rectsToLoad: 5)
+        return dl
+    }()
     
     var sortAPI: SortAPI?
     
@@ -65,8 +69,10 @@ class GenericSortDisplayViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
         setupCollectionView()
         setupButtons()
+        rectDataLoader.load(rectsToLoad: 5)
     }
     
     private func setupCollectionView() {

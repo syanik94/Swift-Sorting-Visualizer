@@ -22,7 +22,7 @@ class SelectionSortAPI: SortAPI {
         }
     }
     var sendUpdates: ((State) -> ())?
-    var datasource: [Int] = RectangleDataLoader().loadRectangles(8)
+    var datasource: [Int]
     lazy var endIndex = datasource.count - 1
 
     
@@ -34,6 +34,10 @@ class SelectionSortAPI: SortAPI {
     var startingIndex = 0
     var possibleSwaps: [Int] = []
     
+    
+    init(datasource: [Int]) {
+        self.datasource = datasource
+    }
 
     func start() {
         currentIndex = startingIndex
@@ -93,7 +97,4 @@ class SelectionSortAPI: SortAPI {
         }
     }
     
-    func reset() {
-        
-    }
 }

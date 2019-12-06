@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             self.window = window
-            let navVC = UINavigationController(rootViewController: SelectionSortViewController())
+            let navVC = UINavigationController(rootViewController: BubbleSortViewController())
             self.window?.rootViewController = navVC
             window.makeKeyAndVisible()
         }

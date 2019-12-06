@@ -16,7 +16,7 @@ class BubbleSortTests: XCTestCase {
     // MARK: - Setup
     
     override func setUp() {
-        sut = BubbleSortAPI()
+        sut = BubbleSortAPI(datasource: [1, 2, 3])
         sut?.selectedSortSpeed = sut!.minSortSpeed
     }
 
