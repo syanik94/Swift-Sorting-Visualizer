@@ -14,15 +14,11 @@ class BubbleSortViewController: GenericSortDisplayViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Bubble Sort"
         view.backgroundColor = .white
         sortAPI = BubbleSortAPI()
         setupButtonActions()
         observeStateUpdates()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationItem.title = "Bubble Sort"
     }
     
     // MARK: - State Observation

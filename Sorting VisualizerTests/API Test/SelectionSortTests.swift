@@ -6,8 +6,6 @@
 //  Copyright © 2019 Yanik Simpson. All rights reserved.
 //
 
-import Foundation
-
 import XCTest
 @testable import Sorting_Visualizer
 

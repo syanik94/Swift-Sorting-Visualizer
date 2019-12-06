@@ -17,11 +17,12 @@
 		3D1CBC492369FE9C00E912A2 /* BubbleSortViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1CBC482369FE9C00E912A2 /* BubbleSortViewController.swift */; };
 		3D1CBC4C236A00A900E912A2 /* RectangleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1CBC4B236A00A900E912A2 /* RectangleCollectionViewCell.swift */; };
 		3D1CBC4E236A012400E912A2 /* RectangleLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1CBC4D236A012400E912A2 /* RectangleLoader.swift */; };
+		3D6F5B42239AA92A00EE9278 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6F5B41239AA92A00EE9278 /* Array+Extensions.swift */; };
+		3D6F5B44239AB69500EE9278 /* RectangleDataLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6F5B43239AB69500EE9278 /* RectangleDataLoaderTests.swift */; };
 		3DD75A28236A682400C298B9 /* GenericSortingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD75A27236A682400C298B9 /* GenericSortingViewController.swift */; };
 		3DD75A2A236A687A00C298B9 /* SelectionSortViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD75A29236A687A00C298B9 /* SelectionSortViewController.swift */; };
 		3DD75A2C236A68FF00C298B9 /* SelectionSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD75A2B236A68FF00C298B9 /* SelectionSort.swift */; };
 		3DD75A2E236A695700C298B9 /* SelectionSortTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD75A2D236A695700C298B9 /* SelectionSortTests.swift */; };
-		3DD75A34236D480600C298B9 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD75A33236D480600C298B9 /* Array+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,11 +50,12 @@
 		3D1CBC482369FE9C00E912A2 /* BubbleSortViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleSortViewController.swift; sourceTree = "<group>"; };
 		3D1CBC4B236A00A900E912A2 /* RectangleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleCollectionViewCell.swift; sourceTree = "<group>"; };
 		3D1CBC4D236A012400E912A2 /* RectangleLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleLoader.swift; sourceTree = "<group>"; };
+		3D6F5B41239AA92A00EE9278 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
+		3D6F5B43239AB69500EE9278 /* RectangleDataLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleDataLoaderTests.swift; sourceTree = "<group>"; };
 		3DD75A27236A682400C298B9 /* GenericSortingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericSortingViewController.swift; sourceTree = "<group>"; };
 		3DD75A29236A687A00C298B9 /* SelectionSortViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionSortViewController.swift; sourceTree = "<group>"; };
 		3DD75A2B236A68FF00C298B9 /* SelectionSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionSort.swift; sourceTree = "<group>"; };
 		3DD75A2D236A695700C298B9 /* SelectionSortTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionSortTests.swift; sourceTree = "<group>"; };
-		3DD75A33236D480600C298B9 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +169,7 @@
 			children = (
 				3D1CBC2C2369FCB200E912A2 /* BubbleSortTests.swift */,
 				3DD75A2D236A695700C298B9 /* SelectionSortTests.swift */,
+				3D6F5B43239AB69500EE9278 /* RectangleDataLoaderTests.swift */,
 			);
 			path = "API Test";
 			sourceTree = "<group>";
@@ -174,7 +177,7 @@
 		3DD75A32236D47F500C298B9 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				3DD75A33236D480600C298B9 /* Array+Extensions.swift */,
+				3D6F5B41239AA92A00EE9278 /* Array+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -281,11 +284,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D1CBC4E236A012400E912A2 /* RectangleLoader.swift in Sources */,
-				3DD75A34236D480600C298B9 /* Array+Extensions.swift in Sources */,
 				3D1CBC4C236A00A900E912A2 /* RectangleCollectionViewCell.swift in Sources */,
 				3D1CBC492369FE9C00E912A2 /* BubbleSortViewController.swift in Sources */,
 				3DD75A2A236A687A00C298B9 /* SelectionSortViewController.swift in Sources */,
 				3D1CBC132369FCB000E912A2 /* AppDelegate.swift in Sources */,
+				3D6F5B42239AA92A00EE9278 /* Array+Extensions.swift in Sources */,
 				3D1CBC1A2369FCB000E912A2 /* BubbleSort.swift in Sources */,
 				3D1CBC152369FCB000E912A2 /* SceneDelegate.swift in Sources */,
 				3DD75A28236A682400C298B9 /* GenericSortingViewController.swift in Sources */,
@@ -298,6 +301,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DD75A2E236A695700C298B9 /* SelectionSortTests.swift in Sources */,
+				3D6F5B44239AB69500EE9278 /* RectangleDataLoaderTests.swift in Sources */,
 				3D1CBC2D2369FCB200E912A2 /* BubbleSortTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

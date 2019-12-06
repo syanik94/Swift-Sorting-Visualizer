@@ -12,16 +12,12 @@ class SelectionSortViewController: GenericSortDisplayViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Selection Sort"
         view.backgroundColor = .white
         sortAPI = SelectionSortAPI()
         setupButtonActions()
         observeStateUpdates()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-       super.viewWillAppear(animated)
-       navigationItem.title = "Selection Sort"
-   }
     
     // MARK: - State Observation
 

@@ -9,7 +9,6 @@
 import Foundation
 
 class SelectionSortAPI: SortAPI {
-    
     enum State: Equatable {
         case notStarted
         case looping(currentIndex: IndexPath)
@@ -92,5 +91,9 @@ class SelectionSortAPI: SortAPI {
         if startingIndex != endIndex {
             currentIndex += 1
         }
+    }
+    
+    func reset() {
+        
     }
 }

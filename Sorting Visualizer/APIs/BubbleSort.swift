@@ -9,7 +9,6 @@
 import Foundation
 
 class BubbleSortAPI: SortAPI {
-    
     enum State: Equatable {
         case notStarted
         case looping(currentIndex: IndexPath, previousIndex: IndexPath?)
@@ -84,6 +83,10 @@ class BubbleSortAPI: SortAPI {
             currentIndex += 1
             self.performLoop(currentIndex, t)
         })
+    }
+    
+    func reset() {
+        
     }
 }
 
