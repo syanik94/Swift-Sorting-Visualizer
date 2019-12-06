@@ -10,6 +10,9 @@ import UIKit
 
 protocol SortAPI {
     var datasource: [Int] { get set }
+    var minSortSpeed: Double { get set }
+    var maxSortSpeed: Double { get set }
+    var selectedSortSpeed: Double { get set }
     func start()
 }
 

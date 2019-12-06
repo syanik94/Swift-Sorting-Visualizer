@@ -16,7 +16,7 @@ class BubbleSortTests: XCTestCase {
     // MARK: - Setup
     
     override func setUp() {
-        sut = BubbleSortAPI(datasource: [1, 2, 3])
+        sut = makeSUT()
         sut?.selectedSortSpeed = sut!.minSortSpeed
     }
 
@@ -126,4 +126,12 @@ class BubbleSortTests: XCTestCase {
         XCTAssertEqual(sut?.datasource, [2, 3, 1])
     }
     
+    
+    // MARK: - Helpers
+    
+    func makeSUT() -> BubbleSortAPI {
+        let sortAPI = BubbleSortAPI(datasource: [1, 2, 3])
+        sortAPI.selectedSortSpeed = 0.2
+        return sortAPI
+    }
 }

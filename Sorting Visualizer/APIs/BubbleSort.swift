@@ -24,13 +24,15 @@ class BubbleSortAPI: SortAPI {
     }
     
     var minSortSpeed = 0.05
-    var selectedSortSpeed = 0.1
-    var maxSortSpeed = 1
+    var maxSortSpeed = 1.0
+    var selectedSortSpeed = 0.5
     
     var datasource: [Int] 
     fileprivate lazy var endIndex = datasource.count - 1
 
     var sendUpdates: ((State) -> ())?
+    
+    // MARK: - Initializer
     
     init(datasource: [Int]) {
         self.datasource = datasource
@@ -43,8 +45,8 @@ class BubbleSortAPI: SortAPI {
     fileprivate func performSwap(_ currentIndex: Int) {
         let shouldSwap = datasource[currentIndex] > datasource[currentIndex + 1]
         if shouldSwap {
-            self.datasource.swapAt(currentIndex + 1, currentIndex)
-            self.state = .swap(index1: IndexPath(row: currentIndex, section: 0),
+            datasource.swapAt(currentIndex + 1, currentIndex)
+            state = .swap(index1: IndexPath(row: currentIndex, section: 0),
                                Index2: IndexPath(row: currentIndex + 1, section: 0))
             didPerformSwap = true
         }
@@ -53,24 +55,24 @@ class BubbleSortAPI: SortAPI {
     fileprivate func performLoop(_ currentIndex: Int, _ t: Timer) {
         let previousIndex = currentIndex - 1
         
-        self.state = .looping(currentIndex: IndexPath(row: currentIndex, section: 0),
+        state = .looping(currentIndex: IndexPath(row: currentIndex, section: 0),
                               previousIndex: IndexPath(row: previousIndex, section: 0))
         
-        let hasNotReachedEndIndex = currentIndex != self.endIndex
+        let hasNotReachedEndIndex = currentIndex != endIndex
         if hasNotReachedEndIndex {
-            self.performSwap(currentIndex)
+            performSwap(currentIndex)
         }
         
-        let hasReachedEndIndex = currentIndex >= self.endIndex
+        let hasReachedEndIndex = currentIndex >= endIndex
         if hasReachedEndIndex {
-            self.state = .restarting(endIndex: IndexPath(row: self.endIndex, section: 0))
-            if !self.didPerformSwap {
-                self.state = .completed
+            state = .restarting(endIndex: IndexPath(row: endIndex, section: 0))
+            if !didPerformSwap {
+                state = .completed
                 t.invalidate()
             }
-            if self.didPerformSwap {
-                self.start()
-                self.endIndex -= 1
+            if didPerformSwap {
+                start()
+                endIndex -= 1
             }
             t.invalidate()
         }
@@ -88,6 +90,5 @@ class BubbleSortAPI: SortAPI {
             self.performLoop(currentIndex, t)
         })
     }
-    
 }
 
