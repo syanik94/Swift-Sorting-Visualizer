@@ -25,7 +25,6 @@ class BubbleSortViewController: GenericSortDisplayViewController {
         guard let sortAPI = sortAPI as? BubbleSortAPI else { return }
         sortAPI.sendUpdates = { [weak self] (state) in
             guard let self = self else { return }
-            print(state)
             switch state {
                 
             case .notStarted:
@@ -54,6 +53,7 @@ class BubbleSortViewController: GenericSortDisplayViewController {
                 
             case .completed:
                 self.startButton.isEnabled = true
+                self.resetButton.isEnabled = true
             }
         }
     }

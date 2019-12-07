@@ -111,6 +111,8 @@ class GenericSortDisplayViewController: UIViewController {
 
     @objc fileprivate func handleStartTap(_ sender: UIButton) {
         sortAPI?.start()
+        startButton.isEnabled = false
+        resetButton.isEnabled = false
     }
     
     @objc fileprivate func handleResetTap(_ sender: UIButton) {
