@@ -17,7 +17,7 @@ class BubbleSortTests: XCTestCase {
     
     override func setUp() {
         sut = makeSUT()
-        sut?.selectedSortSpeed = sut!.minSortSpeed
+        sut?.currentSortSpeed?.speed = 0.05
     }
 
     override func tearDown() {
@@ -41,7 +41,7 @@ class BubbleSortTests: XCTestCase {
         let expected = expectation(description: #function)
 
         // when
-        sut?.sendUpdates = { (state) in
+        sut?.sendStateUpdates = { (state) in
             observedState = state
             switch state {
                 
@@ -62,7 +62,7 @@ class BubbleSortTests: XCTestCase {
         sut?.datasource = [3, 2, 1]
         let expected = expectation(description: #function)
         // when
-        sut?.sendUpdates = { (state) in
+        sut?.sendStateUpdates = { (state) in
             switch state {
             case .completed:
                 expected.fulfill()
@@ -84,7 +84,7 @@ class BubbleSortTests: XCTestCase {
         let expected = expectation(description: #function)
         
         // when
-        sut?.sendUpdates = { (state) in
+        sut?.sendStateUpdates = { (state) in
             switch state {
             case .swap(_ , _):
                 observedState = state
@@ -105,7 +105,7 @@ class BubbleSortTests: XCTestCase {
         let expected = expectation(description: #function)
 
         // when
-        sut?.sendUpdates = { (state) in
+        sut?.sendStateUpdates = { (state) in
             switch state {
                 
             case .swap(_, _):
@@ -125,7 +125,7 @@ class BubbleSortTests: XCTestCase {
         sut?.datasource = [3, 2, 1]
         let firstEndIndex = sut?.endIndex
         let firstExpectation = expectation(description: #function)
-        sut?.sendUpdates = { (state) in
+        sut?.sendStateUpdates = { (state) in
             if state == .completed { firstExpectation.fulfill() }
         }
         sut?.start()
@@ -136,7 +136,7 @@ class BubbleSortTests: XCTestCase {
         sut?.update(datasource: [10, 9, 8])
         let secondEndIndex = sut?.endIndex
         let finalExpectation = expectation(description: #function)
-        sut?.sendUpdates = { (state) in
+        sut?.sendStateUpdates = { (state) in
             if state == .completed { finalExpectation.fulfill() }
         }
         sut?.start()
@@ -149,7 +149,7 @@ class BubbleSortTests: XCTestCase {
     
     func makeSUT() -> BubbleSortAPI {
         let sortAPI = BubbleSortAPI(datasource: [1, 2, 3])
-        sortAPI.selectedSortSpeed = 0.2
+        sortAPI.currentSortSpeed?.speed = 0.2
         return sortAPI
     }
 }
