@@ -43,6 +43,12 @@ class GenericSortDisplayViewController: UIViewController {
         return cv
     }()
     
+    lazy var playerView: PlayerView = {
+        let v = PlayerView()
+        v.playButton.addTarget(self, action: #selector(handleStartTap), for: .touchUpInside)
+        return v
+    }()
+    
     lazy var startButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("START", for: .normal)
@@ -92,6 +98,7 @@ class GenericSortDisplayViewController: UIViewController {
         setupButtons()
         setupButtonActions()
         setupSliderView()
+        setupPlayerView()
     }
     
     override func viewDidLoad() {
@@ -133,6 +140,13 @@ class GenericSortDisplayViewController: UIViewController {
             let valueText = String(format: "%.2f", sortAPI.selectedSortSpeed)
             speedAdjustmentView.valueLabel.text = "\(valueText)s"
         }
+    }
+    
+    fileprivate func setupPlayerView() {
+        view.addSubview(playerView)
+        playerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        playerView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        playerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
     
     // MARK: - View Setup
