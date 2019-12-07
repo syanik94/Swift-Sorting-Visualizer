@@ -17,7 +17,7 @@ class SelectionSortTests: XCTestCase {
     
     override func setUp() {
         sut = SelectionSortAPI(datasource: [5])
-        sut?.selectedSortSpeed = sut!.minSortSpeed
+        sut?.currentSortSpeed?.speed = 0.05
     }
 
     override func tearDown() {

@@ -33,7 +33,7 @@ class BubbleSortViewController: GenericSortDisplayViewController {
     
     fileprivate func observeStateUpdates() {
         guard let sortAPI = sortAPI as? BubbleSortAPI else { return }
-        sortAPI.sendUpdates = { [weak self] (state) in
+        sortAPI.sendStateUpdates = { [weak self] (state) in
             guard let self = self else { return }
             switch state {
                 

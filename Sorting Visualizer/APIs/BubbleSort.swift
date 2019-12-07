@@ -20,26 +20,43 @@ class BubbleSortAPI: SortingAlgorithm {
     
     var state: State = .notStarted {
         didSet {
-            sendUpdates?(state)
+            sendStateUpdates?(state)
         }
     }
-    
-    var minSortSpeed = 0.05
-    var maxSortSpeed = 0.7
-    var selectedSortSpeed = 0.2
-    
+
+    var currentSortSpeed: SortSpeed? {
+        didSet {
+            sendSpeedUpdates?(currentSortSpeed!)
+        }
+    }
+   
     var datasource: [Int] 
     lazy var endIndex = datasource.count - 1
     
-    var sendUpdates: ((State) -> ())?
+    var sendStateUpdates: ((State) -> Void)?
+    var sendSpeedUpdates: ((SortSpeed) -> Void)?
     
     // MARK: - Initializer
     
     init(datasource: [Int]) {
         self.datasource = datasource
+        self.currentSortSpeed = speeds.first
     }
     
     // MARK: - API
+    
+    func toggleSortSpeed() {
+        if let currentSortSpeed = currentSortSpeed {
+            let index = speeds.firstIndex { (speed) -> Bool in
+                return speed == currentSortSpeed
+            }
+            if index! < (speeds.count - 1 ) {
+                self.currentSortSpeed = speeds[index! + 1]
+            } else {
+                self.currentSortSpeed = speeds[0]
+            }
+        }
+    }
     
     fileprivate var didPerformSwap = false
 
@@ -87,7 +104,7 @@ class BubbleSortAPI: SortingAlgorithm {
         state = .looping(currentIndex: IndexPath(row: currentIndex, section: 0), previousIndex: nil)
         performSwap(currentIndex)
         
-        timer = Timer.scheduledTimer(withTimeInterval: selectedSortSpeed, repeats: true, block: { [weak self] (t) in
+        timer = Timer.scheduledTimer(withTimeInterval: currentSortSpeed?.speed ?? 0.4, repeats: true, block: { [weak self] (t) in
             guard let self = self else { return }
             currentIndex += 1
             self.performLoop(currentIndex, t)

@@ -9,6 +9,12 @@
 import Foundation
 
 class SelectionSortAPI: SortingAlgorithm {
+    var sendSpeedUpdates: ((SortSpeed) -> Void)?
+    
+    func toggleSortSpeed() {
+        
+    }
+    
     func update(datasource: [Int]) {
         
     }
@@ -29,11 +35,13 @@ class SelectionSortAPI: SortingAlgorithm {
     var datasource: [Int]
     lazy var endIndex = datasource.count - 1
 
-    
-    var minSortSpeed = 0.05
-    var selectedSortSpeed = 0.5
-    var maxSortSpeed = 0.5
-    
+    var speeds: [SortSpeed] = [
+        (description: "1x", speed: 0.4),
+        (description: "2x", speed: 0.4 / 2),
+        (description: "3x", speed: 0.4 / 3)
+    ]
+    lazy var currentSortSpeed: SortSpeed? = speeds.first
+
     var currentIndex = 0
     var startingIndex = 0
     var possibleSwaps: [Int] = []
@@ -42,12 +50,13 @@ class SelectionSortAPI: SortingAlgorithm {
     init(datasource: [Int]) {
         self.datasource = datasource
     }
+    
     var timer: Timer?
 
     func start() {
         currentIndex = startingIndex
         state = .looping(currentIndex: [currentIndex, 0])
-        timer = Timer.scheduledTimer(withTimeInterval: selectedSortSpeed, repeats: true, block: { [weak self] (t) in
+        timer = Timer.scheduledTimer(withTimeInterval: currentSortSpeed?.speed ?? 0.2, repeats: true, block: { [weak self] (t) in
             guard let self = self else { return }
             self.handleIndexIncrement()
             self.state = .looping(currentIndex: [self.currentIndex, 0])

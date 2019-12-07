@@ -8,14 +8,23 @@
 
 import UIKit
 
+typealias SortSpeed = (description: String, speed: Double)
 protocol SortingAlgorithm {
     var datasource: [Int] { get set }
-    var minSortSpeed: Double { get set }
-    var maxSortSpeed: Double { get set }
-    var selectedSortSpeed: Double { get set }
     func start()
     func pause()
+    func toggleSortSpeed()
     func update(datasource: [Int])
+    var sendSpeedUpdates: ((SortSpeed) -> Void)? { get set }
+}
+extension SortingAlgorithm {
+    var speeds: [SortSpeed] {
+        return [
+            (description: "1x", speed: 0.4),
+            (description: "2x", speed: 0.4 / 2),
+            (description: "3x", speed: 0.4 / 3)
+        ]
+    }
 }
 
 class GenericSortDisplayViewController: UIViewController {
@@ -48,15 +57,11 @@ class GenericSortDisplayViewController: UIViewController {
         let v = PlayerView()
         v.playButton.addTarget(self, action: #selector(handleStartTap), for: .touchUpInside)
         v.stopButton.addTarget(self, action: #selector(handleResetTap), for: .touchUpInside)
+        v.speedButton.addTarget(self, action: #selector(handleSpeedChangeTap), for: .touchUpInside)
         return v
     }()
     
-    lazy var speedAdjustmentView: SpeedAdjustmentStackView = {
-        let v = SpeedAdjustmentStackView()
-        v.speedAdjustment.addTarget(self, action: #selector(handleSpeedChange), for: .valueChanged)
-        return v
-    }()
-    
+
     init(rectLoader: RectangleDataLoader = .init(rectsToLoad: 5)) {
         self.rectDataLoader = rectLoader
         super.init(nibName: nil, bundle: nil)
@@ -74,11 +79,11 @@ class GenericSortDisplayViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setupCollectionView()
         setupPlayerView()
-        setupSliderView()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        receiveSpeedUpdates()
     }
     
     // MARK: - View Set up
@@ -91,26 +96,20 @@ class GenericSortDisplayViewController: UIViewController {
         collectionView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 3).isActive = true
     }
     
-    fileprivate func setupSliderView() {
-        view.addSubview(speedAdjustmentView)
-        speedAdjustmentView.bottomAnchor.constraint(equalTo: playerView.topAnchor, constant: -10).isActive = true
-        speedAdjustmentView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32).isActive = true
-        speedAdjustmentView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:  -32).isActive = true
-        
-        if let sortAPI = sortAPI {
-            speedAdjustmentView.speedAdjustment.maximumValue = Float(sortAPI.maxSortSpeed)
-            speedAdjustmentView.speedAdjustment.minimumValue = Float(sortAPI.minSortSpeed)
-            speedAdjustmentView.speedAdjustment.value = Float(sortAPI.selectedSortSpeed)
-            let valueText = String(format: "%.2f", sortAPI.selectedSortSpeed)
-            speedAdjustmentView.valueLabel.text = "\(valueText)s"
-        }
-    }
-    
     fileprivate func setupPlayerView() {
         view.addSubview(playerView)
         playerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         playerView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         playerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    }
+    
+    // MARK: - View Updates
+    
+    fileprivate func receiveSpeedUpdates() {
+        sortAPI?.sendSpeedUpdates = { [weak self] (speed) in
+            guard let self = self else { return }
+            self.playerView.speedButton.setTitle(speed.description, for: .normal)
+        }
     }
     
     // MARK: - Actions
@@ -134,10 +133,8 @@ class GenericSortDisplayViewController: UIViewController {
         collectionView.reloadData()
     }
     
-    @objc fileprivate func handleSpeedChange(_ sender: UISlider) {
-        let valueText = String(format: "%.2f", sender.value)
-        sortAPI?.selectedSortSpeed = Double(sender.value)
-        speedAdjustmentView.valueLabel.text = "\(valueText)s"
+    @objc fileprivate func handleSpeedChangeTap(_ sender: UIButton) {
+        sortAPI?.toggleSortSpeed()
     }
     
     fileprivate func resetRectangleColors() {
