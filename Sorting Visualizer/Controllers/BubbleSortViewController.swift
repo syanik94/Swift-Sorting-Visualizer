@@ -26,12 +26,12 @@ class BubbleSortViewController: GenericSortDisplayViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Bubble Sort"
-        observeStateUpdates()
+        observeSortingAlgorithmStateUpdates()
     }
     
     // MARK: - State Observation
     
-    fileprivate func observeStateUpdates() {
+    fileprivate func observeSortingAlgorithmStateUpdates() {
         guard let sortAPI = sortAPI as? BubbleSortAPI else { return }
         sortAPI.sendStateUpdates = { [weak self] (state) in
             guard let self = self else { return }

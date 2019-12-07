@@ -8,25 +8,6 @@
 
 import UIKit
 
-typealias SortSpeed = (description: String, speed: Double)
-protocol SortingAlgorithm {
-    var datasource: [Int] { get set }
-    func start()
-    func pause()
-    func toggleSortSpeed()
-    func update(datasource: [Int])
-    var sendSpeedUpdates: ((SortSpeed) -> Void)? { get set }
-}
-extension SortingAlgorithm {
-    var speeds: [SortSpeed] {
-        return [
-            (description: "1x", speed: 0.4),
-            (description: "2x", speed: 0.4 / 2),
-            (description: "3x", speed: 0.4 / 3)
-        ]
-    }
-}
-
 class GenericSortDisplayViewController: UIViewController {
     
     // MARK: - Dependencies

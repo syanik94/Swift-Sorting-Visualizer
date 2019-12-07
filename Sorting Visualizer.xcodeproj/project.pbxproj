@@ -18,6 +18,7 @@
 		3D1CBC4C236A00A900E912A2 /* RectangleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1CBC4B236A00A900E912A2 /* RectangleCollectionViewCell.swift */; };
 		3D1CBC4E236A012400E912A2 /* RectangleLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1CBC4D236A012400E912A2 /* RectangleLoader.swift */; };
 		3D61E26F239C1C8F00D69A9B /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D61E26E239C1C8F00D69A9B /* PlayerView.swift */; };
+		3D61E272239C685600D69A9B /* SortingAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D61E271239C685600D69A9B /* SortingAlgorithm.swift */; };
 		3D6F5B42239AA92A00EE9278 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6F5B41239AA92A00EE9278 /* Array+Extensions.swift */; };
 		3D6F5B44239AB69500EE9278 /* RectangleDataLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6F5B43239AB69500EE9278 /* RectangleDataLoaderTests.swift */; };
 		3D6F5B47239BD0E900EE9278 /* SpeedAdjustmentStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6F5B46239BD0E900EE9278 /* SpeedAdjustmentStackView.swift */; };
@@ -53,6 +54,7 @@
 		3D1CBC4B236A00A900E912A2 /* RectangleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleCollectionViewCell.swift; sourceTree = "<group>"; };
 		3D1CBC4D236A012400E912A2 /* RectangleLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleLoader.swift; sourceTree = "<group>"; };
 		3D61E26E239C1C8F00D69A9B /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		3D61E271239C685600D69A9B /* SortingAlgorithm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingAlgorithm.swift; sourceTree = "<group>"; };
 		3D6F5B41239AA92A00EE9278 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		3D6F5B43239AB69500EE9278 /* RectangleDataLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleDataLoaderTests.swift; sourceTree = "<group>"; };
 		3D6F5B46239BD0E900EE9278 /* SpeedAdjustmentStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedAdjustmentStackView.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 			children = (
 				3DD75A32236D47F500C298B9 /* Extensions */,
 				3D1CBC462369FE7400E912A2 /* Supporting Files */,
+				3D61E270239C683B00D69A9B /* Protocols */,
 				3D1CBC452369FE6D00E912A2 /* APIs */,
 				3D1CBC472369FE8800E912A2 /* Controllers */,
 				3D1CBC4A236A009200E912A2 /* Views */,
@@ -176,6 +179,14 @@
 				3D61E26E239C1C8F00D69A9B /* PlayerView.swift */,
 			);
 			path = "Player View";
+			sourceTree = "<group>";
+		};
+		3D61E270239C683B00D69A9B /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				3D61E271239C685600D69A9B /* SortingAlgorithm.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		3DD75A26236A5B3200C298B9 /* API Test */ = {
@@ -307,6 +318,7 @@
 				3D6F5B42239AA92A00EE9278 /* Array+Extensions.swift in Sources */,
 				3D1CBC1A2369FCB000E912A2 /* BubbleSort.swift in Sources */,
 				3D1CBC152369FCB000E912A2 /* SceneDelegate.swift in Sources */,
+				3D61E272239C685600D69A9B /* SortingAlgorithm.swift in Sources */,
 				3DD75A28236A682400C298B9 /* GenericSortingViewController.swift in Sources */,
 				3DD75A2C236A68FF00C298B9 /* SelectionSort.swift in Sources */,
 			);
