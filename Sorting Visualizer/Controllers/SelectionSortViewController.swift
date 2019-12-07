@@ -27,10 +27,9 @@ class SelectionSortViewController: GenericSortDisplayViewController {
             switch state {
                 
             case .notStarted:
-                self.startButton.isEnabled = true
+                break
                 
             case .looping(let currentIndex):
-                self.startButton.isEnabled = false
                 guard let cell = self.collectionView.cellForItem(at: IndexPath(row: currentIndex.section, section: 0)) as? RectangleCollectionViewCell else { return }
                 cell.rectangleView.backgroundColor = .orange
                 
@@ -52,7 +51,8 @@ class SelectionSortViewController: GenericSortDisplayViewController {
                 }
                 
             case .completed:
-                self.startButton.isEnabled = true
+                self.playerView.playButton.isSelected = false
+                self.playerView.stopButton.isEnabled = true
             }
          }
      }

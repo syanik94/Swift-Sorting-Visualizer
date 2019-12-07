@@ -11,6 +11,7 @@ import Foundation
 class BubbleSortAPI: SortingAlgorithm {
     enum State: Equatable {
         case notStarted
+        case paused
         case looping(currentIndex: IndexPath, previousIndex: IndexPath?)
         case restarting(endIndex: IndexPath)
         case swap(index1: IndexPath, Index2: IndexPath)
@@ -78,17 +79,24 @@ class BubbleSortAPI: SortingAlgorithm {
         }
     }
     
+    var timer: Timer?
+
     func start() {
         var currentIndex = 0
         didPerformSwap = false
         state = .looping(currentIndex: IndexPath(row: currentIndex, section: 0), previousIndex: nil)
         performSwap(currentIndex)
         
-        _ = Timer.scheduledTimer(withTimeInterval: selectedSortSpeed, repeats: true, block: { [weak self] (t) in
+        timer = Timer.scheduledTimer(withTimeInterval: selectedSortSpeed, repeats: true, block: { [weak self] (t) in
             guard let self = self else { return }
             currentIndex += 1
             self.performLoop(currentIndex, t)
         })
+    }
+
+    func pause() {
+        timer?.invalidate()
+        state = .paused
     }
     
     func update(datasource: [Int]) {

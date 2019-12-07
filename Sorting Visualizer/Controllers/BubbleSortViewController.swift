@@ -38,10 +38,9 @@ class BubbleSortViewController: GenericSortDisplayViewController {
             switch state {
                 
             case .notStarted:
-                self.startButton.isEnabled = true
+                break
                 
             case .looping(let currentIndex, let previousIndex):
-                self.startButton.isEnabled = false
                 if let previousIndex = previousIndex {
                     guard let previousCell = self.collectionView.cellForItem(at: previousIndex) as? RectangleCollectionViewCell else { return }
                     previousCell.rectangleView.backgroundColor = .cyan
@@ -62,12 +61,14 @@ class BubbleSortViewController: GenericSortDisplayViewController {
                 lastCell.rectangleView.backgroundColor = .green
                 
             case .completed:
-                self.startButton.isEnabled = true
-                self.resetButton.isEnabled = true
+                self.playerView.playButton.isSelected = false
+                self.playerView.stopButton.isEnabled = true
+                
+            case .paused:
+                self.playerView.stopButton.isEnabled = true
             }
         }
     }
-    
 }
 
 

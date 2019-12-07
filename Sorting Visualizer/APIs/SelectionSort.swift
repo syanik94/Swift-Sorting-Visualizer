@@ -42,11 +42,12 @@ class SelectionSortAPI: SortingAlgorithm {
     init(datasource: [Int]) {
         self.datasource = datasource
     }
+    var timer: Timer?
 
     func start() {
         currentIndex = startingIndex
         state = .looping(currentIndex: [currentIndex, 0])
-        _ = Timer.scheduledTimer(withTimeInterval: selectedSortSpeed, repeats: true, block: { [weak self] (t) in
+        timer = Timer.scheduledTimer(withTimeInterval: selectedSortSpeed, repeats: true, block: { [weak self] (t) in
             guard let self = self else { return }
             self.handleIndexIncrement()
             self.state = .looping(currentIndex: [self.currentIndex, 0])
@@ -54,6 +55,11 @@ class SelectionSortAPI: SortingAlgorithm {
             self.handleLoopEnd(t)
         })
     }
+
+    func pause() {
+        timer?.invalidate()
+    }
+    
     
     // MARK: - Helpers
     

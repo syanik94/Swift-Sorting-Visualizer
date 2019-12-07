@@ -14,6 +14,7 @@ protocol SortingAlgorithm {
     var maxSortSpeed: Double { get set }
     var selectedSortSpeed: Double { get set }
     func start()
+    func pause()
     func update(datasource: [Int])
 }
 
@@ -46,31 +47,8 @@ class GenericSortDisplayViewController: UIViewController {
     lazy var playerView: PlayerView = {
         let v = PlayerView()
         v.playButton.addTarget(self, action: #selector(handleStartTap), for: .touchUpInside)
+        v.stopButton.addTarget(self, action: #selector(handleResetTap), for: .touchUpInside)
         return v
-    }()
-    
-    lazy var startButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("START", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.setTitleColor(.gray, for: .disabled)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .heavy)
-        button.backgroundColor = UIColor(white: 0.15, alpha: 0.5)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        return button
-    }()
-    
-    lazy var resetButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.backgroundColor = .clear
-        button.setTitle("RESET", for: .normal)
-        button.setTitleColor(.label, for: .normal)
-        button.setTitleColor(.gray, for: .disabled)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: .heavy)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        return button
     }()
     
     lazy var speedAdjustmentView: SpeedAdjustmentStackView = {
@@ -95,10 +73,8 @@ class GenericSortDisplayViewController: UIViewController {
         super.loadView()
         view.backgroundColor = .systemBackground
         setupCollectionView()
-        setupButtons()
-        setupButtonActions()
-        setupSliderView()
         setupPlayerView()
+        setupSliderView()
     }
     
     override func viewDidLoad() {
@@ -115,21 +91,9 @@ class GenericSortDisplayViewController: UIViewController {
         collectionView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 3).isActive = true
     }
     
-    fileprivate func setupButtons() {
-        view.addSubview(startButton)
-        startButton.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 50).isActive = true
-        startButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32).isActive = true
-        startButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:  -32).isActive = true
-        
-        view.addSubview(resetButton)
-        resetButton.topAnchor.constraint(equalTo: startButton.bottomAnchor, constant: 16).isActive = true
-        resetButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32).isActive = true
-        resetButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:  -32).isActive = true
-    }
-    
     fileprivate func setupSliderView() {
         view.addSubview(speedAdjustmentView)
-        speedAdjustmentView.topAnchor.constraint(equalTo: resetButton.bottomAnchor, constant: 30).isActive = true
+        speedAdjustmentView.bottomAnchor.constraint(equalTo: playerView.topAnchor, constant: -10).isActive = true
         speedAdjustmentView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32).isActive = true
         speedAdjustmentView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:  -32).isActive = true
         
@@ -149,19 +113,18 @@ class GenericSortDisplayViewController: UIViewController {
         playerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
     
-    // MARK: - View Setup
-    
-    private func setupButtonActions() {
-        resetButton.addTarget(self, action: #selector(handleResetTap), for: .touchUpInside)
-        startButton.addTarget(self, action: #selector(handleStartTap), for: .touchUpInside)
-    }
-    
     // MARK: - Actions
 
     @objc fileprivate func handleStartTap(_ sender: UIButton) {
-        sortAPI?.start()
-        startButton.isEnabled = false
-        resetButton.isEnabled = false
+        let playState = sender.isSelected
+        if !playState {
+            sortAPI?.start()
+            playerView.stopButton.isEnabled = false
+        }
+        if playState {
+            sortAPI?.pause()
+        }
+        sender.isSelected = !sender.isSelected
     }
     
     @objc fileprivate func handleResetTap(_ sender: UIButton) {
