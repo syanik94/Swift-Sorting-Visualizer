@@ -108,7 +108,7 @@ class GenericSortDisplayViewController: UIViewController {
     }
     
     // MARK: - Actions
-    // TODO: - Move to GenericViewController
+
     @objc fileprivate func handleStartTap(_ sender: UIButton) {
         sortAPI?.start()
     }
@@ -116,7 +116,16 @@ class GenericSortDisplayViewController: UIViewController {
     @objc fileprivate func handleResetTap(_ sender: UIButton) {
         rectDataLoader.reset()
         sortAPI?.update(datasource: rectDataLoader.rectangles)
+        resetRectangleColors()
         collectionView.reloadData()
+    }
+    
+    fileprivate func resetRectangleColors() {
+        guard let rectangleCollectionViewCells = collectionView.visibleCells as? [RectangleCollectionViewCell] else { return }
+        
+        rectangleCollectionViewCells.forEach { (cell) in
+            cell.rectangleView.backgroundColor = .cyan
+        }
     }
     
 }
