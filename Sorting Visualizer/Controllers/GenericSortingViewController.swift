@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SortAPI {
+protocol SortingAlgorithm {
     var datasource: [Int] { get set }
     var minSortSpeed: Double { get set }
     var maxSortSpeed: Double { get set }
@@ -19,12 +19,10 @@ protocol SortAPI {
 
 class GenericSortDisplayViewController: UIViewController {
     
-    lazy var rectDataLoader: RectangleDataLoader = {
-        let dl = RectangleDataLoader(rectsToLoad: 5)
-        return dl
-    }()
+    // MARK: - Dependencies
     
-    var sortAPI: SortAPI?
+    var rectDataLoader: RectangleDataLoader
+    var sortAPI: SortingAlgorithm?
     
     // MARK: - Views
     
@@ -42,8 +40,6 @@ class GenericSortDisplayViewController: UIViewController {
         cv.allowsSelection = false
         cv.delegate = self
         cv.dataSource = self
-        cv.layer.masksToBounds = true
-        cv.layer.cornerRadius = 12
         return cv
     }()
     
@@ -71,24 +67,48 @@ class GenericSortDisplayViewController: UIViewController {
         return button
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    lazy var speedAdjustmentView: SpeedAdjustmentStackView = {
+        let v = SpeedAdjustmentStackView()
+        v.speedAdjustment.addTarget(self, action: #selector(handleSpeedChange), for: .valueChanged)
+        return v
+    }()
+    
+    init(rectLoader: RectangleDataLoader = .init(rectsToLoad: 5)) {
+        self.rectDataLoader = rectLoader
+        super.init(nibName: nil, bundle: nil)
+        rectDataLoader.load(rectsToLoad: 8)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - View Life Cycle Methods
+    
+    override func loadView() {
+        super.loadView()
         view.backgroundColor = .systemBackground
         setupCollectionView()
         setupButtons()
         setupButtonActions()
-        rectDataLoader.load(rectsToLoad: 5)
+        setupSliderView()
     }
     
-    private func setupCollectionView() {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    // MARK: - View Set up
+    
+    fileprivate func setupCollectionView() {
         view.addSubview(collectionView)
         collectionView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 32).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 18).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -18).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         collectionView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 3).isActive = true
     }
     
-    private func setupButtons() {
+    fileprivate func setupButtons() {
         view.addSubview(startButton)
         startButton.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 50).isActive = true
         startButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32).isActive = true
@@ -98,6 +118,21 @@ class GenericSortDisplayViewController: UIViewController {
         resetButton.topAnchor.constraint(equalTo: startButton.bottomAnchor, constant: 16).isActive = true
         resetButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32).isActive = true
         resetButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:  -32).isActive = true
+    }
+    
+    fileprivate func setupSliderView() {
+        view.addSubview(speedAdjustmentView)
+        speedAdjustmentView.topAnchor.constraint(equalTo: resetButton.bottomAnchor, constant: 30).isActive = true
+        speedAdjustmentView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32).isActive = true
+        speedAdjustmentView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:  -32).isActive = true
+        
+        if let sortAPI = sortAPI {
+            speedAdjustmentView.speedAdjustment.maximumValue = Float(sortAPI.maxSortSpeed)
+            speedAdjustmentView.speedAdjustment.minimumValue = Float(sortAPI.minSortSpeed)
+            speedAdjustmentView.speedAdjustment.value = Float(sortAPI.selectedSortSpeed)
+            let valueText = String(format: "%.2f", sortAPI.selectedSortSpeed)
+            speedAdjustmentView.valueLabel.text = "\(valueText)s"
+        }
     }
     
     // MARK: - View Setup
@@ -122,6 +157,12 @@ class GenericSortDisplayViewController: UIViewController {
         collectionView.reloadData()
     }
     
+    @objc fileprivate func handleSpeedChange(_ sender: UISlider) {
+        let valueText = String(format: "%.2f", sender.value)
+        sortAPI?.selectedSortSpeed = Double(sender.value)
+        speedAdjustmentView.valueLabel.text = "\(valueText)s"
+    }
+    
     fileprivate func resetRectangleColors() {
         guard let rectangleCollectionViewCells = collectionView.visibleCells as? [RectangleCollectionViewCell] else { return }
         
@@ -129,7 +170,6 @@ class GenericSortDisplayViewController: UIViewController {
             cell.rectangleView.backgroundColor = .cyan
         }
     }
-    
 }
 
 // MARK: - CollectionView Delegate & Datasource Methods

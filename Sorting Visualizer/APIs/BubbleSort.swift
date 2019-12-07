@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BubbleSortAPI: SortAPI {
+class BubbleSortAPI: SortingAlgorithm {
     enum State: Equatable {
         case notStarted
         case looping(currentIndex: IndexPath, previousIndex: IndexPath?)
@@ -24,7 +24,7 @@ class BubbleSortAPI: SortAPI {
     }
     
     var minSortSpeed = 0.05
-    var maxSortSpeed = 1.0
+    var maxSortSpeed = 0.7
     var selectedSortSpeed = 0.2
     
     var datasource: [Int] 

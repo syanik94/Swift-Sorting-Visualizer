@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SelectionSortAPI: SortAPI {
+class SelectionSortAPI: SortingAlgorithm {
     func update(datasource: [Int]) {
         
     }
