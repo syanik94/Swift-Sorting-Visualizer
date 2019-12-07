@@ -25,7 +25,7 @@ class BubbleSortAPI: SortAPI {
     
     var minSortSpeed = 0.05
     var maxSortSpeed = 1.0
-    var selectedSortSpeed = 0.5
+    var selectedSortSpeed = 0.2
     
     var datasource: [Int] 
     fileprivate lazy var endIndex = datasource.count - 1

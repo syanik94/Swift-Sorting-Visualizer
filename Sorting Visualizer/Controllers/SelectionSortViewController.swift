@@ -14,7 +14,6 @@ class SelectionSortViewController: GenericSortDisplayViewController {
         super.viewDidLoad()
         navigationItem.title = "Selection Sort"
         sortAPI = SelectionSortAPI(datasource: rectDataLoader.rectangles)
-        setupButtonActions()
         observeStateUpdates()
     }
     
@@ -58,21 +57,4 @@ class SelectionSortViewController: GenericSortDisplayViewController {
          }
      }
     
-
-    // MARK: - View Setup
-    
-    fileprivate func setupButtonActions() {
-        resetButton.addTarget(self, action: #selector(handleResetTap), for: .touchUpInside)
-        startButton.addTarget(self, action: #selector(handleStartTap), for: .touchUpInside)
-    }
-    
-    // MARK: - Actions
-    
-    @objc fileprivate func handleStartTap(_ sender: UIButton) {
-        sortAPI?.start()
-    }
-    
-    @objc fileprivate func handleResetTap(_ sender: UIButton) {
-        // TODO: - Handle Reset
-    }
 }

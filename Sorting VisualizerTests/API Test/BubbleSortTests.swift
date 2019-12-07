@@ -27,15 +27,9 @@ class BubbleSortTests: XCTestCase {
     
     // MARK: - Initialize
 
-    func testInit_state_notStarted() {
+    func test_initial_state_notStarted() {
         XCTAssertEqual(sut?.state,
                        BubbleSortAPI.State.notStarted)
-    }
-    
-    func testInit_setValues() {
-        sut?.datasource = [5, 3]
-        
-        XCTAssertEqual(sut?.datasource, [5, 3])
     }
     
     // MARK: - Sorting
@@ -125,7 +119,6 @@ class BubbleSortTests: XCTestCase {
         wait(for: [expected], timeout: 1)
         XCTAssertEqual(sut?.datasource, [2, 3, 1])
     }
-    
     
     // MARK: - Helpers
     

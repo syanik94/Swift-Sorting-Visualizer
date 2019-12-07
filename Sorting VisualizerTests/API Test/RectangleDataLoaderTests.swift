@@ -38,10 +38,10 @@ class RectangleDataLoaderTests: XCTestCase {
     func test_reset() {
         sut.load(rectsToLoad: 5)
         let initial = sut.rectangles
-        
+
         sut.reset()
         let result = sut.rectangles
-        
+
         XCTAssertNotEqual(initial, result)
         XCTAssertEqual(initial.count, result.count)
     }

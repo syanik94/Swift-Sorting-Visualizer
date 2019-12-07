@@ -16,7 +16,6 @@ class BubbleSortViewController: GenericSortDisplayViewController {
         super.viewDidLoad()
         navigationItem.title = "Bubble Sort"
         sortAPI = BubbleSortAPI(datasource: rectDataLoader.rectangles)
-        setupButtonActions()
         observeStateUpdates()
     }
     
@@ -59,25 +58,6 @@ class BubbleSortViewController: GenericSortDisplayViewController {
         }
     }
     
-    // MARK: - View Setup
-    
-    private func setupButtonActions() {
-        resetButton.addTarget(self, action: #selector(handleResetTap), for: .touchUpInside)
-        startButton.addTarget(self, action: #selector(handleStartTap), for: .touchUpInside)
-    }
-    
-    // MARK: - Actions
-    
-    @objc fileprivate func handleStartTap(_ sender: UIButton) {
-        guard let sortAPI = sortAPI as? BubbleSortAPI else { return }
-        sortAPI.start()
-    }
-    
-    @objc fileprivate func handleResetTap(_ sender: UIButton) {
-        // TODO: - Handle Reset
-        rectDataLoader.reset()
-        collectionView.reloadData()
-    }
 }
 
 

@@ -61,8 +61,8 @@ class GenericSortDisplayViewController: UIViewController {
     lazy var resetButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .clear
-        button.setTitle("Reset", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitle("RESET", for: .normal)
+        button.setTitleColor(.label, for: .normal)
         button.setTitleColor(.gray, for: .disabled)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: .heavy)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -75,6 +75,7 @@ class GenericSortDisplayViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setupCollectionView()
         setupButtons()
+        setupButtonActions()
         rectDataLoader.load(rectsToLoad: 5)
     }
     
@@ -96,6 +97,25 @@ class GenericSortDisplayViewController: UIViewController {
         resetButton.topAnchor.constraint(equalTo: startButton.bottomAnchor, constant: 16).isActive = true
         resetButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32).isActive = true
         resetButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:  -32).isActive = true
+    }
+    
+    // MARK: - View Setup
+    
+    private func setupButtonActions() {
+        resetButton.addTarget(self, action: #selector(handleResetTap), for: .touchUpInside)
+        startButton.addTarget(self, action: #selector(handleStartTap), for: .touchUpInside)
+    }
+    
+    // MARK: - Actions
+    // TODO: - Move to GenericViewController
+    @objc fileprivate func handleStartTap(_ sender: UIButton) {
+        sortAPI?.start()
+    }
+    
+    @objc fileprivate func handleResetTap(_ sender: UIButton) {
+        rectDataLoader.reset()
+        sortAPI?.datasource = rectDataLoader.rectangles
+        collectionView.reloadData()
     }
     
 }
