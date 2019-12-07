@@ -9,6 +9,10 @@
 import Foundation
 
 class SelectionSortAPI: SortAPI {
+    func update(datasource: [Int]) {
+        
+    }
+    
     enum State: Equatable {
         case notStarted
         case looping(currentIndex: IndexPath)

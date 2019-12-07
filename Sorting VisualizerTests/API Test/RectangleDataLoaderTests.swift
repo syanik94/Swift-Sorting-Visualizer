@@ -45,4 +45,5 @@ class RectangleDataLoaderTests: XCTestCase {
         XCTAssertNotEqual(initial, result)
         XCTAssertEqual(initial.count, result.count)
     }
+    
 }

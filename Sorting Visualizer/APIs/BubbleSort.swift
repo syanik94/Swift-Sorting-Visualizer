@@ -28,8 +28,8 @@ class BubbleSortAPI: SortAPI {
     var selectedSortSpeed = 0.2
     
     var datasource: [Int] 
-    fileprivate lazy var endIndex = datasource.count - 1
-
+    lazy var endIndex = datasource.count - 1
+    
     var sendUpdates: ((State) -> ())?
     
     // MARK: - Initializer
@@ -89,6 +89,11 @@ class BubbleSortAPI: SortAPI {
             currentIndex += 1
             self.performLoop(currentIndex, t)
         })
+    }
+    
+    func update(datasource: [Int]) {
+        self.datasource = datasource
+        self.endIndex = datasource.count - 1
     }
 }
 

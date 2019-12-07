@@ -14,6 +14,7 @@ protocol SortAPI {
     var maxSortSpeed: Double { get set }
     var selectedSortSpeed: Double { get set }
     func start()
+    func update(datasource: [Int])
 }
 
 class GenericSortDisplayViewController: UIViewController {
@@ -114,7 +115,7 @@ class GenericSortDisplayViewController: UIViewController {
     
     @objc fileprivate func handleResetTap(_ sender: UIButton) {
         rectDataLoader.reset()
-        sortAPI?.datasource = rectDataLoader.rectangles
+        sortAPI?.update(datasource: rectDataLoader.rectangles)
         collectionView.reloadData()
     }
     

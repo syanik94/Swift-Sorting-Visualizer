@@ -61,7 +61,6 @@ class BubbleSortTests: XCTestCase {
         // given
         sut?.datasource = [3, 2, 1]
         let expected = expectation(description: #function)
-        
         // when
         sut?.sendUpdates = { (state) in
             switch state {
@@ -71,10 +70,11 @@ class BubbleSortTests: XCTestCase {
             }
         }
         sut?.start()
-        
+
         // then
         wait(for: [expected], timeout: 1)
         XCTAssertEqual(sut?.datasource, [1, 2, 3])
+
     }
     
     func test_start_swapState() {
@@ -118,6 +118,31 @@ class BubbleSortTests: XCTestCase {
         // then
         wait(for: [expected], timeout: 1)
         XCTAssertEqual(sut?.datasource, [2, 3, 1])
+    }
+    
+    func test_start_after_run() {
+        // first run
+        sut?.datasource = [3, 2, 1]
+        let firstEndIndex = sut?.endIndex
+        let firstExpectation = expectation(description: #function)
+        sut?.sendUpdates = { (state) in
+            if state == .completed { firstExpectation.fulfill() }
+        }
+        sut?.start()
+        wait(for: [firstExpectation], timeout: 1)
+        XCTAssertEqual(sut?.datasource, [1,2,3])
+        
+        // second run
+        sut?.update(datasource: [10, 9, 8])
+        let secondEndIndex = sut?.endIndex
+        let finalExpectation = expectation(description: #function)
+        sut?.sendUpdates = { (state) in
+            if state == .completed { finalExpectation.fulfill() }
+        }
+        sut?.start()
+        wait(for: [finalExpectation], timeout: 1)
+        XCTAssertEqual(sut?.datasource, [8,9,10])
+        XCTAssertEqual(firstEndIndex, secondEndIndex)
     }
     
     // MARK: - Helpers
