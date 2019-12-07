@@ -9,11 +9,14 @@
 import UIKit
 
 class RectangleCollectionViewCell: UICollectionViewCell {
+    
+    var rectangleHeightConstraint: NSLayoutConstraint?
+    
     var rectHeight: Int? {
         didSet {
             if let rectHeight = rectHeight {
                 let heightRatio = CGFloat(rectHeight) / 100
-                let adjustedHeight = (self.frame.height) * heightRatio
+                let adjustedHeight = (frame.height) * heightRatio
                 valueLabel.text = "\(rectHeight)"
                 setupRectView(adjustedHeight)
             }
@@ -31,6 +34,7 @@ class RectangleCollectionViewCell: UICollectionViewCell {
     
     lazy var rectangleView: UIView = {
         let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
         v.layer.masksToBounds = true
         v.backgroundColor = .cyan
         return v
@@ -39,25 +43,33 @@ class RectangleCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
+        addSubview(rectangleView)
+        rectangleView.bottomAnchor
+            .constraint(equalTo: self.bottomAnchor).isActive = true
+        rectangleView.leadingAnchor
+            .constraint(equalTo: self.leadingAnchor).isActive = true
+        rectangleView.trailingAnchor
+            .constraint(equalTo: self.trailingAnchor).isActive = true
+
+        rectangleHeightConstraint = rectangleView.heightAnchor.constraint(equalToConstant: 10)
+        rectangleHeightConstraint?.isActive = true
+        
+        addSubview(valueLabel)
+        valueLabel.bottomAnchor
+            .constraint(equalTo: rectangleView.bottomAnchor).isActive = true
+        valueLabel.leadingAnchor
+            .constraint(equalTo: rectangleView.leadingAnchor).isActive = true
+        valueLabel.trailingAnchor
+            .constraint(equalTo: rectangleView.trailingAnchor).isActive = true
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
+    
+    
     private func setupRectView(_ height: CGFloat) {
-        addSubview(rectangleView)
-        rectangleView.translatesAutoresizingMaskIntoConstraints = false
-        rectangleView.heightAnchor.constraint(equalToConstant: height).isActive = true
-        rectangleView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        rectangleView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        rectangleView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        
-        addSubview(valueLabel)
-        valueLabel.bottomAnchor.constraint(equalTo: rectangleView.bottomAnchor).isActive = true
-        valueLabel.leadingAnchor.constraint(equalTo: rectangleView.leadingAnchor).isActive = true
-        valueLabel.trailingAnchor.constraint(equalTo: rectangleView.trailingAnchor).isActive = true
-        
-        rectangleView.layoutIfNeeded()
+        rectangleHeightConstraint?.constant = height
     }
 }
