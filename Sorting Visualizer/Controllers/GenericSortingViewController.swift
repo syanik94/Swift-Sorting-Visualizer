@@ -26,7 +26,7 @@ class GenericSortDisplayViewController: UIViewController {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.register(RectangleCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.backgroundColor = .tertiarySystemGroupedBackground
+        cv.backgroundColor = UIColor.tertiarySystemGroupedBackground.withAlphaComponent(0.4)
         cv.isScrollEnabled = false
         cv.allowsSelection = false
         cv.delegate = self

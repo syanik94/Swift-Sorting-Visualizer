@@ -41,11 +41,25 @@ class SelectionSortViewController: GenericSortDisplayViewController {
             case .notStarted:
                 break
                 
-            case .looping(let currentIndex):
-                guard let cell = self.collectionView.cellForItem(at: IndexPath(row: currentIndex.section, section: 0)) as? RectangleCollectionViewCell else { return }
-                cell.rectangleView.backgroundColor = .orange
+            case .looping(let currentIndex, let startingIndex, let currentPossibleSwapIndex, let previousPossibleSwapIndex):
+                guard let startingCell = self.collectionView.cellForItem(at: IndexPath(row: startingIndex.section, section: 0)) as? RectangleCollectionViewCell else { return }
+                startingCell.rectangleView.backgroundColor = .green
                 
-//                guard let previousCell = self.collectionView.cellForItem(at: IndexPath(row: currentIndex.section - 1, section: 0)) as? RectangleCollectionViewCell else { return }
+                guard let currentCell = self.collectionView.cellForItem(at: IndexPath(row: currentIndex.section, section: 0)) as? RectangleCollectionViewCell else { return }
+                currentCell.rectangleView.backgroundColor = .orange
+                
+                guard let previousCell = self.collectionView.cellForItem(at: IndexPath(row: currentIndex.section - 1, section: 0)) as? RectangleCollectionViewCell else { return }
+                previousCell.rectangleView.backgroundColor = .cyan
+                
+                if let currentPossibleSwapIndex = currentPossibleSwapIndex {
+                    guard let currentPossibleSwapCell = self.collectionView.cellForItem(at: IndexPath(row: currentPossibleSwapIndex.section, section: 0)) as? RectangleCollectionViewCell else { return }
+                    currentPossibleSwapCell.rectangleView.backgroundColor = .green
+                }
+                
+                if let previousPossibleSwapIndex = previousPossibleSwapIndex {
+                    guard let previousPossibleSwapCell = self.collectionView.cellForItem(at: IndexPath(row: previousPossibleSwapIndex.section, section: 0)) as? RectangleCollectionViewCell else { return }
+                    previousPossibleSwapCell.rectangleView.backgroundColor = .cyan
+                }
                 
             case .restarting(let startingIndexPath, let swappingIndexPath):
                 guard let cell1 = self.collectionView.cellForItem(at: IndexPath(row: startingIndexPath.section, section: 0)) as? RectangleCollectionViewCell else { return }
