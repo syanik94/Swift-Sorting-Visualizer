@@ -41,7 +41,8 @@ class GenericSortDisplayViewController: UIViewController {
         v.speedButton.addTarget(self, action: #selector(handleSpeedChangeTap), for: .touchUpInside)
         return v
     }()
-    
+
+    // MARK: - Initializers
 
     init(rectLoader: RectangleDataLoader = .init(rectsToLoad: 5)) {
         self.rectDataLoader = rectLoader
@@ -64,29 +65,29 @@ class GenericSortDisplayViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        receiveSpeedUpdates()
+        receiveSortingSpeedChanges()
     }
     
     // MARK: - View Set up
     
     fileprivate func setupCollectionView() {
         view.addSubview(collectionView)
-        collectionView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 32).isActive = true
+        collectionView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        collectionView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 3).isActive = true
+        collectionView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 2).isActive = true
     }
     
     fileprivate func setupPlayerView() {
         view.addSubview(playerView)
-        playerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        playerView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -16).isActive = true
         playerView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         playerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
     
     // MARK: - View Updates
     
-    fileprivate func receiveSpeedUpdates() {
+    fileprivate func receiveSortingSpeedChanges() {
         sortAPI?.sendSpeedUpdates = { [weak self] (speed) in
             guard let self = self else { return }
             self.playerView.speedButton.setTitle(speed.description, for: .normal)

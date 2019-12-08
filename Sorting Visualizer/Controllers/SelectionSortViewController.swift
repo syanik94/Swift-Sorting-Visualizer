@@ -9,17 +9,29 @@
 import UIKit
 
 class SelectionSortViewController: GenericSortDisplayViewController {
+    
+    // MARK: - Initializer
+
+    init() {
+        super.init()
+        sortAPI = SelectionSortAPI(datasource: rectDataLoader.rectangles)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - View Lifecycle Methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Selection Sort"
-        sortAPI = SelectionSortAPI(datasource: rectDataLoader.rectangles)
-        observeStateUpdates()
+        observeSortingAlgorithmStateUpdates()
     }
     
     // MARK: - State Observation
 
-    fileprivate func observeStateUpdates() {
+    fileprivate func observeSortingAlgorithmStateUpdates() {
          guard let sortAPI = sortAPI as? SelectionSortAPI else { return }
          sortAPI.sendUpdates = { [weak self] (state) in
 
@@ -53,8 +65,10 @@ class SelectionSortViewController: GenericSortDisplayViewController {
             case .completed:
                 self.playerView.playButton.isSelected = false
                 self.playerView.stopButton.isEnabled = true
+                
+            case .paused:
+                self.playerView.stopButton.isEnabled = true
             }
          }
      }
-    
 }

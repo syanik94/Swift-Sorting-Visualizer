@@ -44,20 +44,34 @@ class BubbleSortAPI: SortingAlgorithm {
     }
     
     // MARK: - API
-    
-    func toggleSortSpeed() {
-        if let currentSortSpeed = currentSortSpeed {
-            let index = speeds.firstIndex { (speed) -> Bool in
-                return speed == currentSortSpeed
-            }
-            if index! < (speeds.count - 1 ) {
-                self.currentSortSpeed = speeds[index! + 1]
-            } else {
-                self.currentSortSpeed = speeds[0]
-            }
-        }
+
+    var timer: Timer?
+
+    func start() {
+        var currentIndex = 0
+        didPerformSwap = false
+        state = .looping(currentIndex: IndexPath(row: currentIndex, section: 0), previousIndex: nil)
+        performSwap(currentIndex)
+        
+        timer = Timer.scheduledTimer(withTimeInterval: currentSortSpeed?.speed ?? 0.4, repeats: true, block: { [weak self] (t) in
+            guard let self = self else { return }
+            currentIndex += 1
+            self.performLoop(currentIndex, t)
+        })
+    }
+
+    func pause() {
+        timer?.invalidate()
+        state = .paused
     }
     
+    func update(datasource: [Int]) {
+        self.datasource = datasource
+        self.endIndex = datasource.count - 1
+    }
+    
+    // MARK: - Helpers
+
     fileprivate var didPerformSwap = false
 
     fileprivate func performSwap(_ currentIndex: Int) {
@@ -94,31 +108,6 @@ class BubbleSortAPI: SortingAlgorithm {
             }
             t.invalidate()
         }
-    }
-    
-    var timer: Timer?
-
-    func start() {
-        var currentIndex = 0
-        didPerformSwap = false
-        state = .looping(currentIndex: IndexPath(row: currentIndex, section: 0), previousIndex: nil)
-        performSwap(currentIndex)
-        
-        timer = Timer.scheduledTimer(withTimeInterval: currentSortSpeed?.speed ?? 0.4, repeats: true, block: { [weak self] (t) in
-            guard let self = self else { return }
-            currentIndex += 1
-            self.performLoop(currentIndex, t)
-        })
-    }
-
-    func pause() {
-        timer?.invalidate()
-        state = .paused
-    }
-    
-    func update(datasource: [Int]) {
-        self.datasource = datasource
-        self.endIndex = datasource.count - 1
     }
 }
 

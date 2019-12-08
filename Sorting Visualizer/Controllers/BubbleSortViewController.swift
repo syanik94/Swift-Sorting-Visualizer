@@ -10,8 +10,8 @@ import UIKit
 
 class BubbleSortViewController: GenericSortDisplayViewController {
     
-    // MARK: - Initlaizer
-    
+    // MARK: - Initializer
+
     init() {
         super.init()
         self.sortAPI = BubbleSortAPI(datasource: rectDataLoader.rectangles)

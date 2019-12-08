@@ -9,18 +9,9 @@
 import Foundation
 
 class SelectionSortAPI: SortingAlgorithm {
-    var sendSpeedUpdates: ((SortSpeed) -> Void)?
-    
-    func toggleSortSpeed() {
-        
-    }
-    
-    func update(datasource: [Int]) {
-        
-    }
-    
     enum State: Equatable {
         case notStarted
+        case paused
         case looping(currentIndex: IndexPath)
         case restarting(startingIndexPath: IndexPath, swappingIndexPath: IndexPath?)
         case completed
@@ -31,26 +22,31 @@ class SelectionSortAPI: SortingAlgorithm {
             sendUpdates?(state)
         }
     }
-    var sendUpdates: ((State) -> ())?
     var datasource: [Int]
     lazy var endIndex = datasource.count - 1
 
-    var speeds: [SortSpeed] = [
-        (description: "1x", speed: 0.4),
-        (description: "2x", speed: 0.4 / 2),
-        (description: "3x", speed: 0.4 / 3)
-    ]
-    lazy var currentSortSpeed: SortSpeed? = speeds.first
-
+    var currentSortSpeed: SortSpeed? {
+        didSet {
+            sendSpeedUpdates?(currentSortSpeed!)
+        }
+    }
+    
     var currentIndex = 0
     var startingIndex = 0
     var possibleSwaps: [Int] = []
     
-    
+    var sendUpdates: ((State) -> ())?
+    var sendSpeedUpdates: ((SortSpeed) -> Void)?
+
+    // MARK: - Initializer
+
     init(datasource: [Int]) {
         self.datasource = datasource
+        self.currentSortSpeed = speeds.first
     }
     
+    // MARK: - API
+
     var timer: Timer?
 
     func start() {
@@ -67,9 +63,14 @@ class SelectionSortAPI: SortingAlgorithm {
 
     func pause() {
         timer?.invalidate()
+        state = .paused
     }
     
-    
+    func update(datasource: [Int]) {
+        self.datasource = datasource
+        startingIndex = 0
+    }
+        
     // MARK: - Helpers
     
     fileprivate func handleSwap() {

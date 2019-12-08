@@ -37,6 +37,7 @@ class RectangleCollectionViewCell: UICollectionViewCell {
         v.translatesAutoresizingMaskIntoConstraints = false
         v.layer.masksToBounds = true
         v.backgroundColor = .cyan
+        v.layer.cornerRadius = 8
         return v
     }()
     

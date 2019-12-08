@@ -43,20 +43,28 @@ class PlayerView: UIView {
         return b
     }()
     
+    fileprivate lazy var actionButtonStackView: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [playButton, stopButton])
+        sv.axis = .horizontal
+        sv.spacing = 18
+        sv.distribution = .fill
+        return sv
+    }()
+    
     fileprivate lazy var contentStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [UIView(), playButton, stopButton, speedButton])
+        let sv = UIStackView(arrangedSubviews: [actionButtonStackView, speedButton])
         sv.translatesAutoresizingMaskIntoConstraints = false
         sv.axis = .horizontal
         sv.spacing = 45
-        sv.distribution = .fillEqually
+        sv.distribution = .fill
         return sv
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         layer.masksToBounds = true
-        backgroundColor = UIColor.secondarySystemBackground.withAlphaComponent(0.75)
         translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = UIColor.systemGray4.withAlphaComponent(0.35)
         addSubview(contentStackView)
         contentStackView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         contentStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 100).isActive = true
