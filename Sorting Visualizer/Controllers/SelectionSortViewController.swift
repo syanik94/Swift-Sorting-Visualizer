@@ -40,18 +40,15 @@ class SelectionSortViewController: GenericSortDisplayViewController {
             case .notStarted:
                 break
                 
-            case .looping(let currentIndex, let startingIndex, let currentPossibleSwapIndex, let previousPossibleSwapIndex,let endIndexPath):
+            case .looping(let currentIndex, let startingIndex, let currentPossibleSwapIndex, let previousPossibleSwapIndex,let previousIndexPath):
                 guard let currentCell = self.collectionView.cellForItem(at: IndexPath(row: currentIndex.section, section: 0)) as? RectangleCollectionViewCell else { return }
                 currentCell.rectangleView.backgroundColor = .orange
                 
                 guard let startingCell = self.collectionView.cellForItem(at: IndexPath(row: startingIndex.section, section: 0)) as? RectangleCollectionViewCell else { return }
                 startingCell.rectangleView.backgroundColor = .green
                 
-                let isNotStartingIndex = (currentIndex.section - 1) != startingIndex.section
-                if isNotStartingIndex {
-                    guard let previousCell = self.collectionView.cellForItem(at: IndexPath(row: currentIndex.section - 1, section: 0)) as? RectangleCollectionViewCell else { return }
-                    previousCell.rectangleView.backgroundColor = .cyan
-                }
+                guard let previousCell = self.collectionView.cellForItem(at: IndexPath(row: previousIndexPath.section, section: 0)) as? RectangleCollectionViewCell else { return }
+                previousCell.rectangleView.backgroundColor = .cyan
                 
                 if let currentPossibleSwapIndex = currentPossibleSwapIndex {
                     guard let currentPossibleSwapCell = self.collectionView.cellForItem(at: IndexPath(row: currentPossibleSwapIndex.section, section: 0)) as? RectangleCollectionViewCell else { return }
@@ -63,29 +60,19 @@ class SelectionSortViewController: GenericSortDisplayViewController {
                     previousPossibleSwapCell.rectangleView.backgroundColor = .cyan
                 }
                 
-                if currentIndex != endIndexPath {
-                    guard let endCell = self.collectionView.cellForItem(at: IndexPath(row: endIndexPath.section, section: 0)) as? RectangleCollectionViewCell else { return }
-                    endCell.rectangleView.backgroundColor = .cyan
+            case .restarting(let startingIndexPath, let swappingIndexPath, _):
+                if let swappingIndexPath = swappingIndexPath {
+                    self.collectionView.moveItem(at: IndexPath(row: swappingIndexPath.section, section: 0),
+                                                 to: IndexPath(row: startingIndexPath.section, section: 0))
+                    self.collectionView.moveItem(at: IndexPath(row: startingIndexPath.section + 1, section: 0),
+                                                 to: IndexPath(row: swappingIndexPath.section, section: 0))
+                    
+                    guard let swappingCell = self.collectionView.cellForItem(at: IndexPath(row: swappingIndexPath.section, section: 0)) as? RectangleCollectionViewCell else { return }
+                    swappingCell.rectangleView.backgroundColor = .cyan
                 }
-                
-            case .restarting(let startingIndexPath, let swappingIndexPath, let endIndexPath):
                 guard let startingCell = self.collectionView.cellForItem(at: IndexPath(row: startingIndexPath.section, section: 0)) as? RectangleCollectionViewCell else { return }
                 startingCell.rectangleView.backgroundColor = .cyan
 
-                if let swappingIndexPath = swappingIndexPath {
-                    guard let swappingCell = self.collectionView.cellForItem(at: IndexPath(row: swappingIndexPath.section, section: 0)) as? RectangleCollectionViewCell else { return }
-                    swappingCell.rectangleView.backgroundColor = .green
-                    
-                    self.collectionView.moveItem(at: IndexPath(row: swappingIndexPath.section, section: 0),
-                                                 to: IndexPath(row: startingIndexPath.section, section: 0))
-                    
-                    self.collectionView.moveItem(at: IndexPath(row: startingIndexPath.section + 1, section: 0),
-                                                 to: IndexPath(row: swappingIndexPath.section, section: 0))
-                }
-                
-//                guard let endCell = self.collectionView.cellForItem(at: IndexPath(row: endIndexPath.section, section: 0)) as? RectangleCollectionViewCell else { return }
-//                        endCell.rectangleView.backgroundColor = .cyan
-                
             case .completed:
                 self.resetRectangleColors()
                 self.playerView.playButton.isSelected = false

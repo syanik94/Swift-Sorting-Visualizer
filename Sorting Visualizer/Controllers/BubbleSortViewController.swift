@@ -61,6 +61,7 @@ class BubbleSortViewController: GenericSortDisplayViewController {
                 lastCell.rectangleView.backgroundColor = .green
                 
             case .completed:
+                self.resetRectangleColors()
                 self.playerView.playButton.isSelected = false
                 self.playerView.stopButton.isEnabled = true
                 

@@ -12,7 +12,7 @@ class SelectionSortAPI: SortingAlgorithm {
     enum State: Equatable {
         case notStarted
         case paused
-        case looping(currentIndex: IndexPath, startingIndex: IndexPath, currentPossibleSwapIndex: IndexPath?, previousPossibleSwapIndex: IndexPath?, endIndexPath: IndexPath)
+        case looping(currentIndex: IndexPath, startingIndex: IndexPath, currentPossibleSwapIndex: IndexPath?, previousPossibleSwapIndex: IndexPath?, previousIndexPath: IndexPath)
         case restarting(startingIndexPath: IndexPath, swappingIndexPath: IndexPath?, endIndexPath: IndexPath)
         case completed
     }
@@ -54,10 +54,10 @@ class SelectionSortAPI: SortingAlgorithm {
         currentIndex = startingIndex
         if currentIndex != endIndex {
             state = .looping(currentIndex: [currentIndex, 0],
-            startingIndex: [startingIndex, 0],
-            currentPossibleSwapIndex: nil,
-            previousPossibleSwapIndex: nil,
-            endIndexPath: [endIndex, 0])
+                            startingIndex: [startingIndex, 0],
+                            currentPossibleSwapIndex: nil,
+                            previousPossibleSwapIndex: nil,
+                            previousIndexPath: [endIndex, 0])
         }
         
         timer = Timer.scheduledTimer(withTimeInterval: currentSortSpeed?.speed ?? 0.2, repeats: true, block: { [weak self] (t) in
@@ -104,11 +104,12 @@ class SelectionSortAPI: SortingAlgorithm {
             swappingIndexPath = nil
             previousSwappingIndexPath = nil
         }
+        
         state = .looping(currentIndex: [currentIndex, 0],
                         startingIndex: [startingIndex, 0],
                         currentPossibleSwapIndex: swappingIndexPath,
                         previousPossibleSwapIndex: previousSwappingIndexPath,
-                        endIndexPath: [endIndex, 0])
+                        previousIndexPath: [currentIndex - 1, 0])
     }
     
     fileprivate func handleSwap() {
@@ -141,7 +142,9 @@ class SelectionSortAPI: SortingAlgorithm {
                 possibleSwaps.removeAll()
                 startingIndex += 1
                 timer?.invalidate()
-                start()
+                DispatchQueue.main.asyncAfter(deadline: .now() + (currentSortSpeed?.speed ?? 0.2)) {
+                    self.start()
+                }
             }
         }
     }
