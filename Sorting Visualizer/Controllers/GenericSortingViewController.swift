@@ -119,7 +119,7 @@ class GenericSortDisplayViewController: UIViewController {
         sortAPI?.toggleSortSpeed()
     }
     
-    fileprivate func resetRectangleColors() {
+    func resetRectangleColors() {
         guard let rectangleCollectionViewCells = collectionView.visibleCells as? [RectangleCollectionViewCell] else { return }
         
         rectangleCollectionViewCells.forEach { (cell) in

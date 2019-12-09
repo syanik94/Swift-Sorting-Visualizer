@@ -12,7 +12,7 @@ class SelectionSortAPI: SortingAlgorithm {
     enum State: Equatable {
         case notStarted
         case paused
-        case looping(currentIndex: IndexPath, startingIndex: IndexPath, currentPossibleSwapIndex: IndexPath?, previousPossibleSwapIndex: IndexPath?)
+        case looping(currentIndex: IndexPath, startingIndex: IndexPath, currentPossibleSwapIndex: IndexPath?, previousPossibleSwapIndex: IndexPath?, endIndexPath: IndexPath)
         case restarting(startingIndexPath: IndexPath, swappingIndexPath: IndexPath?, endIndexPath: IndexPath)
         case completed
     }
@@ -23,13 +23,14 @@ class SelectionSortAPI: SortingAlgorithm {
         }
     }
     var datasource: [Int]
-    var endIndex: Int?
+    
     var currentSortSpeed: SortSpeed? {
         didSet {
             sendSpeedUpdates?(currentSortSpeed!)
         }
     }
     
+    var endIndex: Int
     var currentIndex = 0
     var startingIndex = 0
     var possibleSwaps: [Int] = []
@@ -41,8 +42,8 @@ class SelectionSortAPI: SortingAlgorithm {
 
     init(datasource: [Int]) {
         self.datasource = datasource
-        self.currentSortSpeed = speeds.first
         self.endIndex = datasource.count - 1
+        self.currentSortSpeed = speeds.first
     }
     
     // MARK: - API
@@ -51,16 +52,20 @@ class SelectionSortAPI: SortingAlgorithm {
 
     func start() {
         currentIndex = startingIndex
-        state = .looping(currentIndex: [currentIndex, 0],
-                         startingIndex: [startingIndex, 0],
-                         currentPossibleSwapIndex: nil,
-                         previousPossibleSwapIndex: nil)
+        if currentIndex != endIndex {
+            state = .looping(currentIndex: [currentIndex, 0],
+            startingIndex: [startingIndex, 0],
+            currentPossibleSwapIndex: nil,
+            previousPossibleSwapIndex: nil,
+            endIndexPath: [endIndex, 0])
+        }
+        
         timer = Timer.scheduledTimer(withTimeInterval: currentSortSpeed?.speed ?? 0.2, repeats: true, block: { [weak self] (t) in
             guard let self = self else { return }
             self.handleIndexIncrement()
             self.handleLooping()
             self.handleSwap()
-            self.handleLoopEnd(t)
+            self.handleLoopEnd()
         })
     }
 
@@ -76,12 +81,9 @@ class SelectionSortAPI: SortingAlgorithm {
         
     // MARK: - Helpers
     
-    fileprivate func handleSwap() {
+    fileprivate func handleIndexIncrement() {
         if startingIndex != endIndex {
-            if datasource[currentIndex] < datasource[startingIndex] {
-                possibleSwaps.append(datasource[currentIndex])
-                possibleSwaps.sort()
-            }
+            currentIndex += 1
         }
     }
     
@@ -105,38 +107,42 @@ class SelectionSortAPI: SortingAlgorithm {
         state = .looping(currentIndex: [currentIndex, 0],
                         startingIndex: [startingIndex, 0],
                         currentPossibleSwapIndex: swappingIndexPath,
-                        previousPossibleSwapIndex: previousSwappingIndexPath)
+                        previousPossibleSwapIndex: previousSwappingIndexPath,
+                        endIndexPath: [endIndex, 0])
     }
     
-    fileprivate func handleLoopEnd(_ t: Timer) {
-        let didReachEndIndex = currentIndex >= endIndex!
-        if didReachEndIndex {
-            if startingIndex == endIndex {
-                state = .completed
+    fileprivate func handleSwap() {
+        if startingIndex != endIndex {
+            if datasource[currentIndex] < datasource[startingIndex] {
+                possibleSwaps.append(datasource[currentIndex])
+                possibleSwaps.sort()
             }
-            
-            if startingIndex != endIndex {
-                if !possibleSwaps.isEmpty {
-                    let swappingIndex: Int = datasource.findFirstIndex(from: startingIndex, of: possibleSwaps[0])
-                    datasource.swapAt(startingIndex,
-                                           swappingIndex)
-                    
-                    state = .restarting(startingIndexPath: [startingIndex, 0],
-                                        swappingIndexPath: [swappingIndex,0], endIndexPath: [endIndex!, 0])
-                }
-                state = .restarting(startingIndexPath: [startingIndex, 0],
-                                    swappingIndexPath: nil, endIndexPath: [endIndex!, 0])
-                possibleSwaps.removeAll()
-                startingIndex += 1
-                start()
-            }
-            t.invalidate()
         }
     }
     
-    fileprivate func handleIndexIncrement() {
-        if startingIndex != endIndex {
-            currentIndex += 1
+    fileprivate func handleLoopEnd() {
+        let didReachEndIndex = currentIndex >= endIndex
+        if didReachEndIndex {
+            if startingIndex == endIndex {
+                state = .completed
+                timer?.invalidate()
+            } else {
+                var swappingIndexPath: IndexPath?
+                
+                if !possibleSwaps.isEmpty {
+                    let swappingIndex: Int = datasource.findFirstIndex(from: startingIndex, of: possibleSwaps[0])
+                    swappingIndexPath = [swappingIndex, 0]
+                    datasource.swapAt(startingIndex, swappingIndex)
+                } else { swappingIndexPath = nil }
+                
+                state = .restarting(startingIndexPath: [startingIndex, 0],
+                                    swappingIndexPath: swappingIndexPath,
+                                    endIndexPath: [endIndex, 0])
+                possibleSwaps.removeAll()
+                startingIndex += 1
+                timer?.invalidate()
+                start()
+            }
         }
     }
 }
