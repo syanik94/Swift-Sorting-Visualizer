@@ -86,27 +86,27 @@ class SelectionSortAPI: SortingAlgorithm {
     }
     
     fileprivate func handleLooping() {
+        var swappingIndexPath: IndexPath?
+        var previousSwappingIndexPath: IndexPath?
+        
         if possibleSwaps.count > 1 {
             let swappingIndex: Int = datasource.findFirstIndex(from: startingIndex, of: possibleSwaps[0])
             let previousSwappingIndex: Int = datasource.findFirstIndex(from: startingIndex, of: possibleSwaps[1])
-            state = .looping(currentIndex: [currentIndex, 0],
-                             startingIndex: [startingIndex, 0],
-                             currentPossibleSwapIndex: [swappingIndex,0],
-                             previousPossibleSwapIndex: [previousSwappingIndex,0])
-            return
+            swappingIndexPath = [swappingIndex, 0]
+            previousSwappingIndexPath = [previousSwappingIndex, 0]
         }
         if possibleSwaps.count > 0 {
             let swappingIndex: Int = datasource.findFirstIndex(from: startingIndex, of: possibleSwaps[0])
-            state = .looping(currentIndex: [currentIndex, 0],
-                             startingIndex: [startingIndex, 0],
-                             currentPossibleSwapIndex: [swappingIndex,0],
-                             previousPossibleSwapIndex: nil)
+            swappingIndexPath = [swappingIndex, 0]
+            previousSwappingIndexPath = nil
         } else {
-            state = .looping(currentIndex: [currentIndex, 0],
-                            startingIndex: [startingIndex, 0],
-                            currentPossibleSwapIndex: nil,
-                            previousPossibleSwapIndex: nil)
+            swappingIndexPath = nil
+            previousSwappingIndexPath = nil
         }
+        state = .looping(currentIndex: [currentIndex, 0],
+                        startingIndex: [startingIndex, 0],
+                        currentPossibleSwapIndex: swappingIndexPath,
+                        previousPossibleSwapIndex: previousSwappingIndexPath)
     }
     
     fileprivate func handleLoopEnd(_ t: Timer) {
