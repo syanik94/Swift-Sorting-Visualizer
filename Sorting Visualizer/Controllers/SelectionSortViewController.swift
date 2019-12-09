@@ -61,9 +61,9 @@ class SelectionSortViewController: GenericSortDisplayViewController {
                     previousPossibleSwapCell.rectangleView.backgroundColor = .cyan
                 }
                 
-            case .restarting(let startingIndexPath, let swappingIndexPath):
-                guard let cell1 = self.collectionView.cellForItem(at: IndexPath(row: startingIndexPath.section, section: 0)) as? RectangleCollectionViewCell else { return }
-                cell1.rectangleView.backgroundColor = .green
+            case .restarting(let startingIndexPath, let swappingIndexPath, let endIndexPath):
+                guard let startingCell = self.collectionView.cellForItem(at: IndexPath(row: startingIndexPath.section, section: 0)) as? RectangleCollectionViewCell else { return }
+                startingCell.rectangleView.backgroundColor = .green
 
                 if let swappingIndexPath = swappingIndexPath {
                     guard let cell2 = self.collectionView.cellForItem(at: IndexPath(row: swappingIndexPath.section, section: 0)) as? RectangleCollectionViewCell else { return }
@@ -75,6 +75,8 @@ class SelectionSortViewController: GenericSortDisplayViewController {
                     self.collectionView.moveItem(at: IndexPath(row: startingIndexPath.section + 1, section: 0),
                                                  to: IndexPath(row: swappingIndexPath.section, section: 0))
                 }
+                guard let endCell = self.collectionView.cellForItem(at: IndexPath(row: endIndexPath.section, section: 0)) as? RectangleCollectionViewCell else { return }
+                        endCell.rectangleView.backgroundColor = .cyan
                 
             case .completed:
                 self.playerView.playButton.isSelected = false

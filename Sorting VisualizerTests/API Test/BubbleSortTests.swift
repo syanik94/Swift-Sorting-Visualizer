@@ -36,7 +36,6 @@ class BubbleSortTests: XCTestCase {
             
     func test_start_completedState() {
         // given
-        sut?.datasource = [3, 2, 1]
         var observedState = BubbleSortAPI.State.notStarted
         let expected = expectation(description: #function)
 
@@ -58,10 +57,8 @@ class BubbleSortTests: XCTestCase {
     }
     
     func test_start_completedOutput() {
-        // given
-        sut?.datasource = [3, 2, 1]
         let expected = expectation(description: #function)
-        // when
+
         sut?.sendStateUpdates = { (state) in
             switch state {
             case .completed:
@@ -71,15 +68,12 @@ class BubbleSortTests: XCTestCase {
         }
         sut?.start()
 
-        // then
         wait(for: [expected], timeout: 1)
         XCTAssertEqual(sut?.datasource, [1, 2, 3])
-
     }
     
     func test_start_swapState() {
         // given
-        sut?.datasource = [3, 2, 1]
         var observedState = BubbleSortAPI.State.notStarted
         let expected = expectation(description: #function)
         
@@ -101,7 +95,6 @@ class BubbleSortTests: XCTestCase {
     
     func test_start_swapOutput() {
         // given
-        sut?.datasource = [3, 2, 1]
         let expected = expectation(description: #function)
 
         // when
@@ -122,7 +115,6 @@ class BubbleSortTests: XCTestCase {
     
     func test_start_after_run() {
         // first run
-        sut?.datasource = [3, 2, 1]
         let firstEndIndex = sut?.endIndex
         let firstExpectation = expectation(description: #function)
         sut?.sendStateUpdates = { (state) in
@@ -148,7 +140,7 @@ class BubbleSortTests: XCTestCase {
     // MARK: - Helpers
     
     func makeSUT() -> BubbleSortAPI {
-        let sortAPI = BubbleSortAPI(datasource: [1, 2, 3])
+        let sortAPI = BubbleSortAPI(datasource: [3, 2, 1])
         sortAPI.currentSortSpeed?.speed = 0.2
         return sortAPI
     }

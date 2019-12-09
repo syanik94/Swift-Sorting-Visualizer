@@ -13,7 +13,7 @@ class SelectionSortAPI: SortingAlgorithm {
         case notStarted
         case paused
         case looping(currentIndex: IndexPath, startingIndex: IndexPath, currentPossibleSwapIndex: IndexPath?, previousPossibleSwapIndex: IndexPath?)
-        case restarting(startingIndexPath: IndexPath, swappingIndexPath: IndexPath?)
+        case restarting(startingIndexPath: IndexPath, swappingIndexPath: IndexPath?, endIndexPath: IndexPath)
         case completed
     }
     
@@ -23,8 +23,7 @@ class SelectionSortAPI: SortingAlgorithm {
         }
     }
     var datasource: [Int]
-    lazy var endIndex = datasource.count - 1
-
+    var endIndex: Int?
     var currentSortSpeed: SortSpeed? {
         didSet {
             sendSpeedUpdates?(currentSortSpeed!)
@@ -43,6 +42,7 @@ class SelectionSortAPI: SortingAlgorithm {
     init(datasource: [Int]) {
         self.datasource = datasource
         self.currentSortSpeed = speeds.first
+        self.endIndex = datasource.count - 1
     }
     
     // MARK: - API
@@ -110,7 +110,7 @@ class SelectionSortAPI: SortingAlgorithm {
     }
     
     fileprivate func handleLoopEnd(_ t: Timer) {
-        let didReachEndIndex = currentIndex >= endIndex
+        let didReachEndIndex = currentIndex >= endIndex!
         if didReachEndIndex {
             if startingIndex == endIndex {
                 state = .completed
@@ -125,10 +125,10 @@ class SelectionSortAPI: SortingAlgorithm {
                                            swappingIndex)
                     
                     state = .restarting(startingIndexPath: [startingIndex, 0],
-                                             swappingIndexPath: [swappingIndex,0])
+                                        swappingIndexPath: [swappingIndex,0], endIndexPath: [endIndex!, 0])
                 }
                 state = .restarting(startingIndexPath: [startingIndex, 0],
-                                         swappingIndexPath: nil)
+                                    swappingIndexPath: nil, endIndexPath: [endIndex!, 0])
                 possibleSwaps.removeAll()
                 startingIndex += 1
                 start()
