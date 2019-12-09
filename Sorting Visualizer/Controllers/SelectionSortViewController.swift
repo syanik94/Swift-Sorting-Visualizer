@@ -41,11 +41,10 @@ class SelectionSortViewController: GenericSortDisplayViewController {
                 break
                 
             case .looping(let currentIndex, let startingIndex, let currentPossibleSwapIndex, let previousPossibleSwapIndex,let previousIndexPath):
+                
                 guard let currentCell = self.collectionView.cellForItem(at: IndexPath(row: currentIndex.section, section: 0)) as? RectangleCollectionViewCell else { return }
                 currentCell.rectangleView.backgroundColor = .orange
                 
-                guard let startingCell = self.collectionView.cellForItem(at: IndexPath(row: startingIndex.section, section: 0)) as? RectangleCollectionViewCell else { return }
-                startingCell.rectangleView.backgroundColor = .green
                 
                 guard let previousCell = self.collectionView.cellForItem(at: IndexPath(row: previousIndexPath.section, section: 0)) as? RectangleCollectionViewCell else { return }
                 previousCell.rectangleView.backgroundColor = .cyan
@@ -59,6 +58,9 @@ class SelectionSortViewController: GenericSortDisplayViewController {
                     guard let previousPossibleSwapCell = self.collectionView.cellForItem(at: IndexPath(row: previousPossibleSwapIndex.section, section: 0)) as? RectangleCollectionViewCell else { return }
                     previousPossibleSwapCell.rectangleView.backgroundColor = .cyan
                 }
+                
+                guard let startingCell = self.collectionView.cellForItem(at: IndexPath(row: startingIndex.section, section: 0)) as? RectangleCollectionViewCell else { return }
+                startingCell.rectangleView.backgroundColor = .green
                 
             case .restarting(let startingIndexPath, let swappingIndexPath, _):
                 if let swappingIndexPath = swappingIndexPath {

@@ -142,6 +142,7 @@ class SelectionSortAPI: SortingAlgorithm {
                 possibleSwaps.removeAll()
                 startingIndex += 1
                 timer?.invalidate()
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + (currentSortSpeed?.speed ?? 0.2)) {
                     self.start()
                 }
