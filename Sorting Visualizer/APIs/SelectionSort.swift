@@ -90,13 +90,12 @@ class SelectionSortAPI: SortingAlgorithm {
         var previousSwappingIndexPath: IndexPath?
         
         if possibleSwaps.count > 1 {
-            let swappingIndex: Int = datasource.findFirstIndex(from: startingIndex, of: possibleSwaps[0])
+            let swappingIndex = datasource.findFirstIndex(from: startingIndex, of: possibleSwaps[0])
             let previousSwappingIndex: Int = datasource.findFirstIndex(from: startingIndex, of: possibleSwaps[1])
             swappingIndexPath = [swappingIndex, 0]
             previousSwappingIndexPath = [previousSwappingIndex, 0]
-        }
-        if possibleSwaps.count > 0 {
-            let swappingIndex: Int = datasource.findFirstIndex(from: startingIndex, of: possibleSwaps[0])
+        } else if possibleSwaps.count > 0 {
+            let swappingIndex = datasource.findFirstIndex(from: startingIndex, of: possibleSwaps[0])
             swappingIndexPath = [swappingIndex, 0]
             previousSwappingIndexPath = nil
         } else {
@@ -119,8 +118,6 @@ class SelectionSortAPI: SortingAlgorithm {
             if startingIndex != endIndex {
                 if !possibleSwaps.isEmpty {
                     let swappingIndex: Int = datasource.findFirstIndex(from: startingIndex, of: possibleSwaps[0])
-//                        datasource.firstIndex(of: possibleSwaps[0])!
-                    
                     datasource.swapAt(startingIndex,
                                            swappingIndex)
                     
