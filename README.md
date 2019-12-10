@@ -2,8 +2,11 @@
 
 Visualization of common sorting algorithms written in Swift.
 
-**Algorithms**
+### Bubble Sort
 
-![alt-text-1](<a href="https://imgflip.com/gif/3j0chh"><img src="https://i.imgflip.com/3j0chh.gif" title="made at imgflip.com"/></a> "title-1") ![alt-text-2](<a href="https://imgflip.com/gif/3j0chh"><img src="https://i.imgflip.com/3j0chh.gif" title="made at imgflip.com"/></a> "title-2")
+<a href="https://imgflip.com/gif/3j0chh"><img src="https://i.imgflip.com/3j0chh.gif" title="made at imgflip.com"/></a>
 
 
+### Selection Sort
+
+<a href="https://imgflip.com/gif/3j0j5l"><img src="https://i.imgflip.com/3j0j5l.gif" title="made at imgflip.com"/></a>
