@@ -1,7 +1,7 @@
-# Swift Sorting Visualizer
+# Swift-Sorting-Visualizer
 
-## Description
+Visualization of common sorting algorithms written in Swift.
 
-The purpose of this project is to show a visualization of common sorting algorithms. 
+**Bubble Sort**
 
-
+<a href="https://imgflip.com/gif/3j0bzz"><img src="https://i.imgflip.com/3j0bzz.gif" title="made at imgflip.com"/></a>
