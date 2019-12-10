@@ -84,6 +84,37 @@ class SelectionSortTests: XCTestCase {
                       sortedData)
     }
     
+    func test_pauseState() {
+        sut?.start()
+        sut?.pause()
+
+        XCTAssertEqual(sut?.state, .paused)
+    }
+    
+    func test_pauseOutput() {
+        sut?.datasource = [2, 3, 1]
+        let expectated = expectation(description: #function)
+        
+        sut?.sendUpdates = { (state) in
+            print(state)
+            switch state {
+            case .looping(currentIndex: [1,0], startingIndex: [1,0],
+                          currentPossibleSwapIndex: nil,
+                          previousPossibleSwapIndex: nil,
+                          previousIndexPath: [2,0]):
+                self.sut?.pause()
+                expectated.fulfill()
+            default: break
+            }
+        }
+        sut?.start()
+        
+        
+        wait(for: [expectated], timeout: 2)
+        XCTAssertEqual(sut?.state, .paused)
+        XCTAssertEqual(sut?.datasource, [1, 3, 2])
+    }
+    
 //    func test_start_completionWithDuplicates() {
 //        sut?.datasource = [80, 28, 20, 16, 16, 27, 78, 89]
 //        let sortedData = sut?.datasource.sorted()
