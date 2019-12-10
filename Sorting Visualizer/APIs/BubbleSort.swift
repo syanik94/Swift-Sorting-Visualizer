@@ -24,6 +24,12 @@ class BubbleSortAPI: SortingAlgorithm {
         }
     }
 
+    var speeds: [SortSpeed] = [
+            (description: "1x", speed: 0.7),
+            (description: "2x", speed: 0.7 / 2),
+            (description: "3x", speed: 0.7 / 3)
+    ]
+    
     var currentSortSpeed: SortSpeed? {
         didSet {
             sendSpeedUpdates?(currentSortSpeed!)

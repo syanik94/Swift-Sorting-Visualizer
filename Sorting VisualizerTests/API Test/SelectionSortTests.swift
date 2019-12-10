@@ -35,6 +35,7 @@ class SelectionSortTests: XCTestCase {
     
     
     func test_start_looping() {
+        sut?.currentSortSpeed?.speed = 0.05
         sut?.start()
         
         XCTAssertEqual(sut?.state,
@@ -47,6 +48,7 @@ class SelectionSortTests: XCTestCase {
     // MARK: - State - Completion & Output
     
     func test_start_completion() {
+        sut?.currentSortSpeed?.speed = 0.05
         let expectated = expectation(description: #function)
         var observedState = SelectionSortAPI.State.notStarted
         
@@ -67,6 +69,7 @@ class SelectionSortTests: XCTestCase {
     }
 
     func test_start_completionOutput() {
+        sut?.currentSortSpeed?.speed = 0.05
         let sortedData = sut?.datasource.sorted()
         let expectated = expectation(description: #function)
         
@@ -93,6 +96,8 @@ class SelectionSortTests: XCTestCase {
     
     func test_pauseOutput() {
         sut?.datasource = [2, 3, 1]
+        sut?.currentSortSpeed?.speed = 0.05
+
         let expectated = expectation(description: #function)
         
         sut?.sendUpdates = { (state) in
@@ -113,6 +118,18 @@ class SelectionSortTests: XCTestCase {
         wait(for: [expectated], timeout: 2)
         XCTAssertEqual(sut?.state, .paused)
         XCTAssertEqual(sut?.datasource, [1, 3, 2])
+    }
+    
+    func test_toggleSpeed() {
+        XCTAssertEqual(sut?.currentSortSpeed?.description, "1x")
+        XCTAssertEqual(sut?.currentSortSpeed?.speed, 0.7)
+        
+        sut?.toggleSortSpeed()
+        sut?.toggleSortSpeed()
+        XCTAssertEqual(sut?.currentSortSpeed?.description, "3x")
+        
+        sut?.toggleSortSpeed()
+        XCTAssertEqual(sut?.currentSortSpeed?.description, "1x")
     }
     
 //    func test_start_completionWithDuplicates() {
@@ -139,7 +156,6 @@ class SelectionSortTests: XCTestCase {
     fileprivate func makeSUT() -> SelectionSortAPI {
         let datasource = [3, 2, 1]
         let sortAPI = SelectionSortAPI(datasource: datasource)
-        sortAPI.currentSortSpeed?.speed = 0.05
         return sortAPI
     }
 }
