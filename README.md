@@ -9,4 +9,4 @@ Visualization of common sorting algorithms written in Swift.
 
 ### Selection Sort
 
-<a href="https://imgflip.com/gif/3j0j5l"><img src="https://i.imgflip.com/3j0j5l.gif" title="made at imgflip.com"/></a>
+<a href="https://imgflip.com/gif/3j0kdq"><img src="https://i.imgflip.com/3j0kdq.gif" title="made at imgflip.com"/></a>
